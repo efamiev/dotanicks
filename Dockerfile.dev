@@ -1,0 +1,13 @@
+FROM elixir:1.18.3
+
+WORKDIR /app
+
+RUN apt-get update
+# RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -&&\
+#   apt-get install -y nodejs
+# # для хот релоада в дев окружении
+RUN apt-get install -y inotify-tools
+
+RUN mix local.hex --force && mix local.rebar --force
+RUN mix archive.install hex phx_new 1.7.20 --force
+
