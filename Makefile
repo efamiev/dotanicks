@@ -23,7 +23,10 @@ dev-start-server-iex: dev-up-container
 
 # Запуск зависимостей
 dev-deps-start:
-	docker-compose -f docker-compose.dev.yml up -d prometheus grafana nginx
+	docker-compose -f docker-compose.dev.yml up -d nginx
+
+# dev-deps-start:
+# 	docker-compose -f docker-compose.dev.yml up -d prometheus grafana nginx
 
 dev-deps-stop:
 	docker-compose -f docker-compose.dev.yml stop prometheus grafana nginx
