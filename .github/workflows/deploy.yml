@@ -45,7 +45,7 @@ jobs:
       # 3. Получаем версию из mix.exs ---
       - name: Extract version from mix.exs
         id: version
-        run: echo "VERSION=$(mix run --no-start -e 'IO.puts(Mix.Project.config()[:version])')" >> $GITHUB_ENV
+        run: echo "VERSION=$(mix eval 'IO.puts(Mix.Project.config()[:version])')" >> $GITHUB_ENV
 
       # 4. Копирование релиза на сервер
       - name: Pack release for deploy
