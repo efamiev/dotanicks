@@ -20,7 +20,7 @@ if config_env() == :prod do
       environment variable SECRET_KEY_BASE is missing.
       You can generate one by calling: mix phx.gen.secret
       """
-  
+
   host = System.get_env("PHX_HOST") || "example.com"
 
   config :dotanicks_web, DotanicksWeb.Endpoint,

@@ -1,0 +1,35 @@
+<section class="bg-gray-800 rounded-lg border border-gray-700 p-6 shadow-sm">
+  <h2 class="text-xl font-medium mb-4">Введите ссылку на свои матчи:</h2>
+  <form id="nickname_form" class="flex flex-col sm:flex-row gap-4" phx-submit="generate">
+    <input
+      type="url"
+      name="dotabuff_url"
+      placeholder="https://www.dotabuff.com/players/..."
+      required
+      class="flex-1 border border-gray-600 rounded px-4 py-3 bg-gray-700 text-gray-100 focus:outline-none focus:border-red-500"
+    />
+    <button
+      type="submit"
+      id="analyze_button"
+      class="bg-red-500 text-white rounded px-6 py-3 hover:bg-red-600 transition"
+    >
+      Анализировать
+    </button>
+  </form>
+
+  <section id="results" class="mt-8">
+    <div :if={@loading} class="flex items-center justify-center space-x-2 py-8">
+      <svg
+        class="animate-spin h-8 w-8 text-red-500"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+        </circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+      </svg>
+      <span class="text-lg">{@loading_text}</span>
+    </div>
+  </section>
+</section>

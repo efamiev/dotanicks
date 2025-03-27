@@ -1,0 +1,46 @@
+<ul class="space-y-6">
+  <!-- Игрок 1 -->
+  <%= for person <- @persons do %>
+    <li class="bg-gray-800 border border-gray-700 rounded p-4">
+      <div class="flex flex-col sm:flex-row justify-between items-center">
+        <!-- Информация об игроке -->
+        <div>
+          <h2 class="text-xl font-semibold">{person.name}</h2>
+          <a
+            href="https://www.dotabuff.com/players/123456"
+            target="_blank"
+            class="text-sm text-red-500 hover:underline"
+          >
+            Dotabuff профиль
+          </a>
+        </div>
+      </div>
+      <!-- Сгенерированные никнеймы -->
+      <div class="mt-4">
+        <h3 class="text-lg font-medium mb-2">Сгенерированные никнеймы:</h3>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="bg-gray-700 border border-gray-600 rounded p-3">
+            <h4 class="font-semibold">PuppeyLeader</h4>
+            <p class="text-sm text-gray-300">Лидер, чьи решения ведут команду к победе.</p>
+          </div>
+          <div class="bg-gray-700 border border-gray-600 rounded p-3">
+            <h4 class="font-semibold">PuppeyStrike</h4>
+            <p class="text-sm text-gray-300">Мастер атакующих стратегий.</p>
+          </div>
+          <div class="bg-gray-700 border border-gray-600 rounded p-3">
+            <h4 class="font-semibold">PuppeyWizard</h4>
+            <p class="text-sm text-gray-300">Волшебник тактик и решений.</p>
+          </div>
+          <div class="bg-gray-700 border border-gray-600 rounded p-3">
+            <h4 class="font-semibold">PuppeyForce</h4>
+            <p class="text-sm text-gray-300">Сила и уверенность на поле боя.</p>
+          </div>
+          <div class="bg-gray-700 border border-gray-600 rounded p-3">
+            <h4 class="font-semibold">PuppeyShadow</h4>
+            <p class="text-sm text-gray-300">Невидимая угроза, действующая быстро.</p>
+          </div>
+        </div>
+      </div>
+    </li>
+  <% end %>
+</ul>
