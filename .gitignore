@@ -23,4 +23,4 @@ erl_crash.dump
 /tmp/
 
 .DS_Store
-
+.env

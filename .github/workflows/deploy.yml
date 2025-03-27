@@ -1,0 +1,93 @@
+name: Deploy Phoenix LiveView
+
+on:
+  push:
+    branches: ["deploy"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    env:
+      MIX_ENV: prod                   # Режим сборки - продакшн
+      DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}        # Путь на сервере для деплоя
+      SERVICE_NAME: ${{ secrets.SERVICE_NAME }}     # Имя systemd-сервиса
+      # SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+    steps:
+      # 1. Сборка проекта
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Elixir and OTP
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: '1.18.3' # [Required] Define the Elixir version
+          otp-version: '27.3'      # [Required] Define the Erlang/OTP version
+
+      - name: Install Elixir deps (prod)
+        run: mix deps.get --only prod
+
+      - name: Compile Elixir code
+        run: mix compile
+
+      - name: Build and digest assets
+        run: mix assets.deploy
+
+      - name: Build release
+        run: mix release --overwrite
+
+      # 2. Подготовка SSH для деплоя
+      - name: Setup SSH key and known hosts
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+      - name: Add server to known_hosts
+        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      # 3. Получаем версию из mix.exs ---
+      - name: Extract version from mix.exs
+        id: version
+        run: echo "VERSION=$(mix run -e 'IO.puts(Mix.Project.config()[:version])')" >> $GITHUB_ENV
+
+      # 4. Копирование релиза на сервер
+      - name: Pack release for deploy
+        run: tar -czf release.tar.gz -C _build/prod/rel/ dotanicks
+      - name: Upload release to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "release.tar.gz"
+          target: "${{ env.DEPLOY_PATH }}/${{ env.VERSION }}"
+
+      # 5. Развёртывание и запуск на сервере
+      - name: Deploy and restart service
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |                        # Многострочный скрипт на удалённом сервере
+            set -e                         # завершать при ошибках
+
+            echo "Deploying new release to ${DEPLOY_PATH}"
+            tar -xzf ${{ env.DEPLOY_PATH }}/${{ env.VERSION }}/release.tar.gz -C ${{ env.DEPLOY_PATH }}/${{ env.VERSION }}
+
+            echo "Delete tar release"
+            rm ${{ env.DEPLOY_PATH }}/${{ env.VERSION }}/release.tar.gz
+            
+            echo "Update current symlink"
+            ln -nfs ${{ env.DEPLOY_PATH }}/${{ env.VERSION }}/dotanicks/* ${{ env.DEPLOY_PATH }}/current
+
+            echo "Set env variables"
+            set -a && source ${{ env.DEPLOY_PATH }}/../.env && set +a
+
+            echo "Starting new service"
+            sudo systemctl restart dotanicks.service
+
+            echo "Checking service status"
+            sudo systemctl is-active --quiet ${{ env.SERVICE_NAME }} && echo "✅ Deploy succeeded: service is active." || (echo "❌ Service failed to start!" && sudo systemctl status ${{ env.SERVICE_NAME }} --no-pager && exit 1)
+        env:
+          # Передаем секреты в среду исполнения скрипта
+          # SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+          # DATABASE_URL: ${{ secrets.DATABASE_URL }}
