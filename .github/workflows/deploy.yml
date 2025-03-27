@@ -45,7 +45,7 @@ jobs:
       # 3. Получаем версию из mix.exs ---
       - name: Extract version from mix.exs
         id: version
-        run: echo "VERSION=$(_build/prod/rel/dotanicks/bin/app version | awk '{print $2}')" >> $GITHUB_ENV
+        run: echo "VERSION=$(_build/prod/rel/dotanicks/bin/dotanicks version | awk '{print $2}')" >> $GITHUB_ENV
 
       # 4. Копирование релиза на сервер
       - name: Pack release for deploy
