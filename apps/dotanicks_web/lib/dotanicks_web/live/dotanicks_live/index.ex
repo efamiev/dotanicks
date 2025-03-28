@@ -2,11 +2,26 @@ defmodule DotanicksWeb.DotanicksLive.Index do
   use DotanicksWeb, :live_view
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(%{"id" => id} = params, _session, socket) do
+    if connected?(socket) do
+      IO.inspect("SUBSCRIBE to nicks:#{id}")
+      Phoenix.PubSub.subscribe(Dotanicks.PubSub, "nicks:#{id}")
+      Dotanicks.generate(id)
+    end
+    {:ok,
+     socket
+     # |> assign(:loading, false)
+     # |> assign(:loading_text, "")
+     |> assign(:nicks, [])
+     |> assign(:page_title, "Анализируйте свои матчи и получайте уникальные никнеймы")}
+  end
+
+  def mount(params, _session, socket) do
     {:ok,
      socket
      |> assign(:loading, false)
      |> assign(:loading_text, "")
+     |> assign(:nicks, [])
      |> assign(:page_title, "Анализируйте свои матчи и получайте уникальные никнеймы")}
   end
 
@@ -15,23 +30,36 @@ defmodule DotanicksWeb.DotanicksLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
+  @impl true
+  def handle_event("generate", %{"dotabuff_url" => dotabuff_url}, socket) do
+    id = profile_id(dotabuff_url)
+
+    {:noreply,
+     socket
+     |> apply_action(:generate, %{"id" => id})
+     |> push_navigate(to: "/#{id}")}
+  end
+ 
   defp apply_action(socket, :index, _params) do
     socket
   end
 
   defp apply_action(socket, :generate, %{"id" => id}) do
     socket
-    |> assign(:loading_text, "Генерируем ники для профиля #{id}.")
+    |> assign(:loading_text, "Генерируем ники для профиля #{id}")
     |> assign(:loading, true)
   end
-
+  
   @impl true
-  def handle_event("generate", %{"dotabuff_url" => dotabuff_url}, socket) do
-    {:noreply,
-     socket
-     |> assign(:loading_text, "Генерируем ники для профиля #{dotabuff_url}.")
-     |> assign(:loading, true)
-     |> push_navigate(to: "/#{profile_id(dotabuff_url)}")}
+  def handle_info({:core_event, payload}, socket) do
+    {:noreply, 
+    socket
+    |> update(:loading, fn _ -> false end)
+    |> update(:nicks, fn _ -> payload end)}
+  end
+  
+  def handle_info(_, socket) do
+    {:noreply, socket}
   end
 
   def profile_id(url) do

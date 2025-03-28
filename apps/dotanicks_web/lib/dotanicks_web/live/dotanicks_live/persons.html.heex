@@ -1,6 +1,5 @@
-<ul class="space-y-6">
+<ul :for={person <- @persons} class="space-y-6">
   <!-- Игрок 1 -->
-  <%= for person <- @persons do %>
     <li class="bg-gray-800 border border-gray-700 rounded p-4">
       <div class="flex flex-col sm:flex-row justify-between items-center">
         <!-- Информация об игроке -->
@@ -42,5 +41,4 @@
         </div>
       </div>
     </li>
-  <% end %>
 </ul>
