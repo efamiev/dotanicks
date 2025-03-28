@@ -23,6 +23,21 @@ config :dotanicks_web, DotanicksWeb.Endpoint,
   pubsub_server: Dotanicks.PubSub,
   live_view: [signing_salt: "5kyzVbIr"]
 
+llm_api_key =
+  System.get_env("LLM_API_KEY") ||
+    raise """
+    Environment variable LLM_API_KEY is missing.
+    """
+
+llm_system_content =
+  System.get_env("LLM_SYSTEM_CONTENT") ||
+    raise """
+    Environment variable LLM_SYSTEM_CONTENT is missing.
+    """
+
+config :dotanicks, :llm_api_key, llm_api_key
+config :dotanicks, :llm_system_content, llm_system_content
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",

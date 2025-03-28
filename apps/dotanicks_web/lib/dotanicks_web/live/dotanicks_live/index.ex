@@ -2,12 +2,13 @@ defmodule DotanicksWeb.DotanicksLive.Index do
   use DotanicksWeb, :live_view
 
   @impl true
-  def mount(%{"id" => id} = params, _session, socket) do
+  def mount(%{"id" => id}, _session, socket) do
     if connected?(socket) do
       IO.inspect("SUBSCRIBE to nicks:#{id}")
       Phoenix.PubSub.subscribe(Dotanicks.PubSub, "nicks:#{id}")
       Dotanicks.generate(id)
     end
+
     {:ok,
      socket
      # |> assign(:loading, false)
@@ -16,7 +17,7 @@ defmodule DotanicksWeb.DotanicksLive.Index do
      |> assign(:page_title, "Анализируйте свои матчи и получайте уникальные никнеймы")}
   end
 
-  def mount(params, _session, socket) do
+  def mount(_params, _session, socket) do
     {:ok,
      socket
      |> assign(:loading, false)
@@ -39,7 +40,7 @@ defmodule DotanicksWeb.DotanicksLive.Index do
      |> apply_action(:generate, %{"id" => id})
      |> push_navigate(to: "/#{id}")}
   end
- 
+
   defp apply_action(socket, :index, _params) do
     socket
   end
@@ -49,15 +50,23 @@ defmodule DotanicksWeb.DotanicksLive.Index do
     |> assign(:loading_text, "Генерируем ники для профиля #{id}")
     |> assign(:loading, true)
   end
-  
+
   @impl true
-  def handle_info({:core_event, payload}, socket) do
-    {:noreply, 
-    socket
-    |> update(:loading, fn _ -> false end)
-    |> update(:nicks, fn _ -> payload end)}
+  def handle_info({:core_event, {:ok, nicks}}, socket) do
+    {:noreply,
+     socket
+     |> update(:loading, fn _ -> false end)
+     |> update(:nicks, fn _ -> nicks end)}
   end
-  
+
+  def handle_info({:core_event, {:error, err}}, socket) do
+    {:noreply,
+     socket
+     |> update(:loading, fn _ -> false end)
+     |> update(:nicks, fn _ -> [] end)
+     |> put_flash(:error, "Ошибка генерации ников")}
+  end
+
   def handle_info(_, socket) do
     {:noreply, socket}
   end

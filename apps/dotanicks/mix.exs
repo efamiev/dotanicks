@@ -37,7 +37,10 @@ defmodule Dotanicks.MixProject do
   defp deps do
     [
       {:dns_cluster, "~> 0.1.1"},
-      {:phoenix_pubsub, "~> 2.1"}
+      {:phoenix_pubsub, "~> 2.1"},
+      {:finch, "~> 0.19"},
+      {:floki, ">= 0.30.0"},
+      {:jason, "~> 1.4"}
     ]
   end
 

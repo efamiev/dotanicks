@@ -9,7 +9,8 @@ defmodule Dotanicks.Application do
   def start(_type, _args) do
     children = [
       {DNSCluster, query: Application.get_env(:dotanicks, :dns_cluster_query) || :ignore},
-      {Phoenix.PubSub, name: Dotanicks.PubSub}
+      {Phoenix.PubSub, name: Dotanicks.PubSub},
+      {Finch, name: DotanicksFinch}
       # Start a worker by calling: Dotanicks.Worker.start_link(arg)
       # {Dotanicks.Worker, arg}
     ]

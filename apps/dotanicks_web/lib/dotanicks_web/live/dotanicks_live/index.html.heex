@@ -8,25 +8,15 @@
       required
       class="flex-1 border border-gray-600 rounded px-4 py-3 bg-gray-700 text-gray-100 focus:outline-none focus:border-red-500"
     />
-    <button
-      type="submit"
-      id="analyze_button"
-      class="bg-red-500 text-white rounded px-6 py-3 hover:bg-red-600 transition"
-    >
+    <button type="submit" id="analyze_button" class="bg-red-500 text-white rounded px-6 py-3 hover:bg-red-600 transition">
       Анализировать
     </button>
   </form>
 </section>
 <section :if={@loading} id="results" class="mt-8">
   <div class="flex items-center justify-center space-x-2 py-8">
-    <svg
-      class="animate-spin h-8 w-8 text-red-500"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-    >
-      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
-      </circle>
+    <svg class="animate-spin h-8 w-8 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
     </svg>
     <span class="text-lg">{@loading_text}</span>
@@ -37,8 +27,8 @@
   <h2 class="text-xl font-medium mb-4">Предложенные никнеймы</h2>
   <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
     <div class="bg-gray-800 border border-gray-700 rounded p-4">
-      <h3 class="text-lg font-semibold">{nick.name}</h3>
-      <p class="text-sm text-gray-400">{nick.description}</p>
+      <h3 class="text-lg font-semibold">{nick["name"]}</h3>
+      <p class="text-sm text-gray-400">{nick["description"]}</p>
     </div>
   </div>
 </section>
