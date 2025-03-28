@@ -53,7 +53,7 @@ defmodule DotanicksWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        container: {:div, class: "bg-gray-900 text-gray-100 flex block flex-col min-h-screen"},
+        container: {:div, class: "flex block flex-col min-h-screen"},
         layout: {DotanicksWeb.Layouts, :app}
 
       unquote(html_helpers())

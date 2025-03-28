@@ -17,8 +17,8 @@
     </button>
   </form>
 
-  <section id="results" class="mt-8">
-    <div :if={@loading} class="flex items-center justify-center space-x-2 py-8">
+  <section :if={@loading} id="results" class="mt-8">
+    <div class="flex items-center justify-center space-x-2 py-8">
       <svg
         class="animate-spin h-8 w-8 text-red-500"
         xmlns="http://www.w3.org/2000/svg"
