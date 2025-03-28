@@ -11,6 +11,8 @@ jobs:
       MIX_ENV: prod                   # Режим сборки - продакшн
       DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}        # Путь на сервере для деплоя
       SERVICE_NAME: ${{ secrets.SERVICE_NAME }}     # Имя systemd-сервиса
+      LLM_API_KEY: ${{ secrets.LLM_API_KEY }}     # Имя systemd-сервиса
+      LLM_SYSTEM_CONTENT: ${{ secrets.LLM_SYSTEM_CONTENT }}
     steps:
       # 1. Сборка проекта
       - name: Checkout code
@@ -86,7 +88,3 @@ jobs:
 
             echo "Checking service status"
             sudo systemctl is-active --quiet ${{ env.SERVICE_NAME }} && echo "✅ Deploy succeeded: service is active." || (echo "❌ Service failed to start!" && sudo systemctl status ${{ env.SERVICE_NAME }} --no-pager && exit 1)
-        # env:
-          # Передаем секреты в среду исполнения скрипта
-          # SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
-          # DATABASE_URL: ${{ secrets.DATABASE_URL }}
