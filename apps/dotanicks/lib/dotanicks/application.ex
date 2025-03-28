@@ -7,6 +7,8 @@ defmodule Dotanicks.Application do
 
   @impl true
   def start(_type, _args) do
+    Dotanicks.FinchLogger.attach()
+
     children = [
       {DNSCluster, query: Application.get_env(:dotanicks, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Dotanicks.PubSub},
