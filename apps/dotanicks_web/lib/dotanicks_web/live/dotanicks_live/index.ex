@@ -2,24 +2,10 @@ defmodule DotanicksWeb.DotanicksLive.Index do
   use DotanicksWeb, :live_view
 
   @impl true
-  def mount(%{"id" => id}, _session, socket) do
-    if connected?(socket) do
-      IO.inspect("SUBSCRIBE to nicks:#{id}")
-      Phoenix.PubSub.subscribe(Dotanicks.PubSub, "nicks:#{id}")
-      Dotanicks.generate(id)
-    end
-
-    {:ok,
-     socket
-     # |> assign(:loading, false)
-     # |> assign(:loading_text, "")
-     |> assign(:nicks, [])
-     |> assign(:page_title, "Анализируйте свои матчи и получайте уникальные никнеймы")}
-  end
-
   def mount(_params, _session, socket) do
     {:ok,
      socket
+     |> assign(:dotabuff_url, "")
      |> assign(:loading, false)
      |> assign(:loading_text, "")
      |> assign(:nicks, [])
@@ -34,21 +20,24 @@ defmodule DotanicksWeb.DotanicksLive.Index do
   @impl true
   def handle_event("generate", %{"dotabuff_url" => dotabuff_url}, socket) do
     id = profile_id(dotabuff_url)
+    
+    Dotanicks.generate(id)
+    Phoenix.PubSub.subscribe(Dotanicks.PubSub, "nicks:#{id}")
 
     {:noreply,
      socket
-     |> apply_action(:generate, %{"id" => id})
-     |> push_navigate(to: "/#{id}")}
-  end
-
-  defp apply_action(socket, :index, _params) do
-    socket
+      |> assign(:loading, true)
+      |> assign(:loading_text, "Генерируем ники для профиля #{id}")
+      |> push_patch(to: "/#{id}")}
   end
 
   defp apply_action(socket, :generate, %{"id" => id}) do
     socket
-    |> assign(:loading_text, "Генерируем ники для профиля #{id}")
-    |> assign(:loading, true)
+    |> assign(:dotabuff_url, "https://www.dotabuff.com/players/#{id}")
+  end
+  
+  defp apply_action(socket, _action, _params) do
+    socket
   end
 
   @impl true
