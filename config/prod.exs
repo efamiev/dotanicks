@@ -8,10 +8,15 @@ import Config
 config :dotanicks_web, DotanicksWeb.Endpoint, cache_static_manifest: "priv/static/cache_manifest.json"
 
 nicks_history_file =
-  System.get_env("NICKS_HISTORY_FILE") ||
-    raise """
-    Environment variable NICKS_HISTORY_FILE is missing.
-    """
+  case System.get_env("NICKS_HISTORY_FILE") do
+    file when is_binary ->
+      to_charlist(file)
+
+    _ ->
+      raise """
+      Environment variable NICKS_HISTORY_FILE is missing.
+      """
+  end
 
 config :dotanicks, :nicks_history_file, nicks_history_file
 
