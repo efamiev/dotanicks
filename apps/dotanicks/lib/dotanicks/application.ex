@@ -12,7 +12,8 @@ defmodule Dotanicks.Application do
     children = [
       {DNSCluster, query: Application.get_env(:dotanicks, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Dotanicks.PubSub},
-      {Finch, name: DotanicksFinch}
+      {Finch, name: DotanicksFinch},
+      Dotanicks.NicksHistory
       # Start a worker by calling: Dotanicks.Worker.start_link(arg)
       # {Dotanicks.Worker, arg}
     ]

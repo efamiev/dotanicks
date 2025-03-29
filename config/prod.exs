@@ -7,6 +7,14 @@ import Config
 # before starting your production server.
 config :dotanicks_web, DotanicksWeb.Endpoint, cache_static_manifest: "priv/static/cache_manifest.json"
 
+nicks_history_file =
+  System.get_env("NICKS_HISTORY_FILE") ||
+    raise """
+    Environment variable NICKS_HISTORY_FILE is missing.
+    """
+
+config :dotanicks, :nicks_history_file, nicks_history_file
+
 # Do not print debug messages in production
 config :logger, level: :info
 

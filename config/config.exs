@@ -37,6 +37,7 @@ llm_system_content =
 
 config :dotanicks, :llm_api_key, llm_api_key
 config :dotanicks, :llm_system_content, llm_system_content
+config :dotanicks, :nicks_history_file, "nicks_history.dets"
 
 # Configure esbuild (the version is required)
 config :esbuild,
@@ -66,6 +67,8 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

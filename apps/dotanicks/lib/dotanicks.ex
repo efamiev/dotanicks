@@ -14,6 +14,8 @@ defmodule Dotanicks do
     with {:ok, body} <- fetch_matches(id),
          matches when matches != [] <- Parser.parse_mochi(body),
          {:ok, nicks} <- fetch_nicks(matches) do
+      Dotanicks.NicksHistory.add(id, nicks)
+
       Phoenix.PubSub.broadcast(Dotanicks.PubSub, "nicks:#{id}", {:core_event, {:ok, nicks}})
     else
       [] ->

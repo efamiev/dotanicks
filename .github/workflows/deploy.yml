@@ -13,6 +13,7 @@ jobs:
       SERVICE_NAME: ${{ secrets.SERVICE_NAME }}     # Имя systemd-сервиса
       LLM_API_KEY: ${{ secrets.LLM_API_KEY }}     # Имя systemd-сервиса
       LLM_SYSTEM_CONTENT: ${{ secrets.LLM_SYSTEM_CONTENT }}
+      NICKS_HISTORY_FILE: ${{ secrets.NICKS_HISTORY_FILE }}
     steps:
       # 1. Сборка проекта
       - name: Checkout code

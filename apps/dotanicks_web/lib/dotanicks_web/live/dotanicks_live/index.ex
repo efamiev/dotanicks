@@ -9,6 +9,7 @@ defmodule DotanicksWeb.DotanicksLive.Index do
      |> assign(:loading, false)
      |> assign(:loading_text, "")
      |> assign(:nicks, [])
+     |> assign(:prev_nicks, [])
      |> assign(:page_title, "Анализируйте свои матчи и получайте уникальные никнеймы")}
   end
 
@@ -22,7 +23,6 @@ defmodule DotanicksWeb.DotanicksLive.Index do
     id = profile_id(dotabuff_url)
     
     Dotanicks.generate(id)
-    Phoenix.PubSub.subscribe(Dotanicks.PubSub, "nicks:#{id}")
 
     {:noreply,
      socket
@@ -32,7 +32,10 @@ defmodule DotanicksWeb.DotanicksLive.Index do
   end
 
   defp apply_action(socket, :generate, %{"id" => id}) do
+    Phoenix.PubSub.subscribe(Dotanicks.PubSub, "nicks:#{id}")
+
     socket
+    |> assign(:prev_nicks, load_prev_nicks(id))
     |> assign(:dotabuff_url, "https://www.dotabuff.com/players/#{id}")
   end
   
@@ -58,6 +61,13 @@ defmodule DotanicksWeb.DotanicksLive.Index do
 
   def handle_info(_, socket) do
     {:noreply, socket}
+  end
+
+  def load_prev_nicks(id) do
+    case Dotanicks.NicksHistory.get_all(id) do
+      [{^id, list}] -> [list]
+      _ -> []
+    end
   end
 
   def profile_id(url) do
