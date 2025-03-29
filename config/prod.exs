@@ -9,7 +9,7 @@ config :dotanicks_web, DotanicksWeb.Endpoint, cache_static_manifest: "priv/stati
 
 nicks_history_file =
   case System.get_env("NICKS_HISTORY_FILE") do
-    file when is_binary ->
+    file when is_binary(file) ->
       to_charlist(file)
 
     _ ->
