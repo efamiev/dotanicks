@@ -73,7 +73,7 @@ defmodule Dotanicks do
 
   def llm_req_body(matches) do
     Jason.encode!(%{
-      model: "deepseek/deepseek-r1-zero:free",
+      model: "deepseek/deepseek-chat-v3-0324:free",
       messages: [
         %{
           role: "system",
@@ -81,7 +81,7 @@ defmodule Dotanicks do
         },
         %{
           role: "user",
-          content: matches
+          content: Jason.encode!(matches)
         }
       ]
     })
