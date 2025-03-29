@@ -37,7 +37,7 @@
 <section :if={@prev_nicks != []} id="results" class="mt-8">
   <h3 class="text-xl font-medium mb-4">История ников</h3>
   <div :for={{timestamp, prev_nicks} <- @prev_nicks} class="bg-gray-800 border border-gray-700 rounded p-4">
-    {timestamp |> DateTime.from_unix! |> DateTime.shift_zone!("Asia/Tashkent") |> Calendar.strftime("%d.%m.%Y %H:%M")}
+    {timestamp |> DateTime.from_unix!() |> DateTime.shift_zone!("Asia/Tashkent") |> Calendar.strftime("%d.%m.%Y %H:%M")}
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <div :for={prev_nick <- prev_nicks} class="bg-gray-800 border border-gray-700 rounded p-4">
         <h3 class="text-lg font-semibold">{prev_nick["name"]}</h3>

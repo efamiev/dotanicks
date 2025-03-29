@@ -21,14 +21,14 @@ defmodule DotanicksWeb.DotanicksLive.Index do
   @impl true
   def handle_event("generate", %{"dotabuff_url" => dotabuff_url}, socket) do
     id = profile_id(dotabuff_url)
-    
+
     Dotanicks.generate(id)
 
     {:noreply,
      socket
-      |> assign(:loading, true)
-      |> assign(:loading_text, "Генерируем ники для профиля #{id}")
-      |> push_patch(to: "/#{id}")}
+     |> assign(:loading, true)
+     |> assign(:loading_text, "Генерируем ники для профиля #{id}")
+     |> push_patch(to: "/#{id}")}
   end
 
   defp apply_action(socket, :generate, %{"id" => id}) do
@@ -38,7 +38,7 @@ defmodule DotanicksWeb.DotanicksLive.Index do
     |> assign(:prev_nicks, load_prev_nicks(id))
     |> assign(:dotabuff_url, "https://www.dotabuff.com/players/#{id}")
   end
-  
+
   defp apply_action(socket, _action, _params) do
     socket
   end

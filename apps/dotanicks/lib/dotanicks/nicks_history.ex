@@ -2,7 +2,7 @@ defmodule Dotanicks.NicksHistory do
   use GenServer
 
   @table :nicks_history
-  @file Application.compile_env(:dotanicks, :nicks_history_file)
+  @dets_file Application.get_env(:dotanicks, :nicks_history_file)
 
   ## --- API ---
 
@@ -11,7 +11,7 @@ defmodule Dotanicks.NicksHistory do
   end
 
   def get_file do
-    @file
+    @dets_file
   end
 
   def add(task_id, data) do
@@ -33,7 +33,8 @@ defmodule Dotanicks.NicksHistory do
   @impl true
   def init(_) do
     table = @table
-    case :dets.open_file(@table, [file: @file]) do
+
+    case :dets.open_file(@table, file: @dets_file) do
       {:ok, ^table} -> {:ok, nil}
       {:error, reason} -> {:stop, reason}
     end
@@ -47,11 +48,11 @@ defmodule Dotanicks.NicksHistory do
 
   def handle_call({:get_all, task_id}, _from, state) do
     # result =
-      # :dets.foldl(fn
-      #   {{^task_id, ts}, value}, acc -> [{ts, value} | acc]
-      #   _, acc -> acc
-      # end, [], @table)
-      # |> Enum.sort_by(fn {ts, _} -> ts end)
+    # :dets.foldl(fn
+    #   {{^task_id, ts}, value}, acc -> [{ts, value} | acc]
+    #   _, acc -> acc
+    # end, [], @table)
+    # |> Enum.sort_by(fn {ts, _} -> ts end)
     result = :dets.lookup(@table, task_id)
 
     {:reply, result, state}
@@ -59,13 +60,17 @@ defmodule Dotanicks.NicksHistory do
 
   def handle_call({:get_range, task_id, from_ts, to_ts}, _from, state) do
     result =
-      :dets.foldl(fn
-        {{^task_id, ts}, value}, acc when ts >= from_ts and ts <= to_ts ->
-          [{ts, value} | acc]
+      :dets.foldl(
+        fn
+          {{^task_id, ts}, value}, acc when ts >= from_ts and ts <= to_ts ->
+            [{ts, value} | acc]
 
-        _, acc ->
-          acc
-      end, [], @table)
+          _, acc ->
+            acc
+        end,
+        [],
+        @table
+      )
       |> Enum.sort_by(fn {ts, _} -> ts end)
 
     {:reply, result, state}

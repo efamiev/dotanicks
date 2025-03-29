@@ -37,7 +37,7 @@ llm_system_content =
 
 config :dotanicks, :llm_api_key, llm_api_key
 config :dotanicks, :llm_system_content, llm_system_content
-config :dotanicks, :nicks_history_file, "nicks_history.dets"
+config :dotanicks, :nicks_history_file, ~c"nicks_history.dets"
 
 # Configure esbuild (the version is required)
 config :esbuild,
