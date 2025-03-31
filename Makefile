@@ -33,7 +33,7 @@ dev-deps-stop:
 
 # Локальный запуск
 dev-app-start:
-	set -a && source .env && set +a && MIX_ENV=dev iex -S mix phx.server 
+	set -a && source .env && set +a && mix deps.clean dotanicks --build && MIX_ENV=dev iex -S mix phx.server 
 
 # Коммады для билда нужно актуализировать
 up-release:

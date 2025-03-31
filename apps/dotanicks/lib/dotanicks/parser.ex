@@ -2,10 +2,6 @@ defmodule Dotanicks.Parser do
   require Logger
 
   def parse_mochi(html) do
-    # Достаем значение из кеша или делаем запрос
-    # html = Req.get!("https://www.dotabuff.com/players/321580662/matches").body
-
-    # {:ok, document} = Floki.parse_document(html)
     {:ok, document} = Floki.parse_document(html)
 
     document
@@ -19,18 +15,12 @@ defmodule Dotanicks.Parser do
       role =
         td
         |> Enum.at(2)
-        |> Floki.find("i")
-        |> Enum.at(0)
-        |> Floki.attribute("title")
-        |> Floki.text()
+        |> parse_icons(0)
 
       lane =
         td
         |> Enum.at(2)
-        |> Floki.find("i")
-        |> Enum.at(1)
-        |> Floki.attribute("title")
-        |> Floki.text()
+        |> parse_icons(1)
 
       result = td |> Enum.at(3) |> Floki.find("a") |> Floki.text()
       duration = td |> Enum.at(5) |> Floki.text()
@@ -40,9 +30,20 @@ defmodule Dotanicks.Parser do
     end)
   end
 
-  def parse_fast_html(html) do
-    # html = Req.get!("https://www.dotabuff.com/players/321580662/matches").body
+  def parse_icons(node, position) do
+    case Floki.find(node, "i") do
+      [] ->
+        nil
 
+      icons ->
+        icons
+        |> Enum.at(position)
+        |> Floki.attribute("title")
+        |> Floki.text()
+    end
+  end
+
+  def parse_fast_html(html) do
     {:ok, document} = Floki.parse_document(html, html_parser: Floki.HTMLParser.FastHtml)
 
     document

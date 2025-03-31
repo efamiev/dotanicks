@@ -38,7 +38,7 @@ defmodule DotanicksWeb.DotanicksLive.Index do
   def handle_event("update", %{"dotabuff_url" => dotabuff_url}, socket) do
     {:noreply, assign(socket, :dotabuff_url, dotabuff_url)}
   end
-  
+
   def handle_event("show_history", _params, %{assigns: %{dotabuff_url: ""}} = socket) do
     {:noreply, socket}
   end
