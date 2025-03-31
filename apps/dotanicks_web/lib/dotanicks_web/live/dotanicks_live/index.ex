@@ -19,6 +19,10 @@ defmodule DotanicksWeb.DotanicksLive.Index do
   end
 
   @impl true
+  def handle_event("generate", %{"dotabuff_url" => ""}, socket) do
+    {:noreply, socket}
+  end
+
   def handle_event("generate", %{"dotabuff_url" => dotabuff_url}, socket) do
     id = profile_id(dotabuff_url)
 
@@ -33,24 +37,20 @@ defmodule DotanicksWeb.DotanicksLive.Index do
   end
 
   def handle_event("update", %{"dotabuff_url" => dotabuff_url}, socket) do
-    id = profile_id(dotabuff_url)
-
-    {:noreply,
-     socket
-     |> assign(:dotabuff_url, dotabuff_url)}
+    {:noreply, assign(socket, :dotabuff_url, dotabuff_url)}
+  end
+  
+  def handle_event("show_history", _params, %{assigns: %{dotabuff_url: ""}} = socket) do
+    {:noreply, socket}
   end
 
-  def handle_event("show_history", _params, socket) do
-    id = profile_id(socket.assigns.dotabuff_url)
-
-    {:noreply,
-     socket
-     |> push_patch(to: "/#{id}")}
+  def handle_event("show_history", _params, %{assigns: %{dotabuff_url: dotabuff_url}} = socket) do
+    {:noreply, push_patch(socket, to: "/#{profile_id(dotabuff_url)}")}
   end
 
   defp apply_action(socket, _action, %{"id" => id}) do
     socket
-    |> assign(:prev_nicks, load_prev_nicks(id))
+    |> assign(:prev_nicks, load_nicks_history(id))
     |> assign(:dotabuff_url, "https://www.dotabuff.com/players/#{id}")
   end
 
@@ -78,7 +78,7 @@ defmodule DotanicksWeb.DotanicksLive.Index do
     {:noreply, socket}
   end
 
-  def load_prev_nicks(id) do
+  def load_nicks_history(id) do
     case Dotanicks.NicksHistory.get_all(id) do
       [{^id, list}] -> [list]
       _ -> []
