@@ -2,7 +2,7 @@ import http from "k6/http";
 import { sleep, check, fail } from "k6";
 import ws from "k6/ws";
 
-const cookie = "SFMyNTY.g3QAAAADbQAAAAtfY3NyZl90b2tlbm0AAAAYdFdWelFmZFFIaENzVmxrWGFrOTE3STh2bQAAAA5saXZlX3NvY2tldF9pZG0AAAA7dXNlcnNfc2Vzc2lvbnM6S1RtX0J0WDZ4bTMwckJfLVM4T1VHQjVIUC1JQVpLN1BBdERTd2U3V1hWST1tAAAACnVzZXJfdG9rZW5tAAAAICk5vwbV-sZt9Kwf_kvDlBgeRz_iAGSuzwLQ0sHu1l1S.EdO2i2mfreKWtUp9ZaZwuoU8Z57yr7qbwzqTrO28FB8";
+const cookie = "SFMyNTY.g3QAAAABbQAAAAtfY3NyZl90b2tlbm0AAAAYUDlEM2tYd0V1SmxxTTlKS21IWVZaNDhz.1oNOlP8K0lcNs6TtiLHw5EI2C1YOrtsWTTRAqfQyS9M";
 
 export let options = {
   stages: [
@@ -31,7 +31,7 @@ export default function () {
 
   check(res, {
     "status 200": (r) => r.status === 200,
-    "contains header": (r) => r.body.includes("Listing Life complexities"),
+    "contains header": (r) => r.body.includes("Генератор никнеймов для Dota 2"),
   });
 
   checkLiveViewUpgrade(host, origin, wsProtocol, cookie, res, url, {debug: true});
@@ -105,7 +105,7 @@ function checkLiveViewUpgrade(
     ws_url,
     {
       headers: {
-        Cookie: `_life_complex_key=${cookie}`,
+        Cookie: `_dotanicks_web_key=${cookie}`,
         Origin: testHost,
       },
     },
@@ -124,18 +124,18 @@ function checkLiveViewUpgrade(
 					case `["1","4"]`:
 						console.log(`Получение данных о начале загрузки`);
 						checkMessage(message, `"status":"ok"`);
-						checkMessage(message, "disabled phx-click=\\\"fetch_from_api\\\"");
-						checkMessage(message, "Загрузка данных...");
+						// checkMessage(message, "disabled phx-click=\\\"fetch_from_api\\\"");
+						checkMessage(message, "Генерируем ники для профиля 134556694");
 						break;
 					case `["1",null]`:
 						console.log(`Ответ от llm ${message}`)
-						check(message, {
-							"llm click event OK":(message) => {
-								return message.includes("phx-click=\\\"fetch_from_api\\\"") &&
-								message.includes("Получить данные из API") &&
-								message.includes("Привет! Брат!");
-							}
-						})
+						// check(message, {
+						// 	"llm click event OK":(message) => {
+						// 		return message.includes("phx-click=\\\"fetch_from_api\\\"") &&
+						// 		message.includes("Получить данные из API") &&
+						// 		message.includes("Привет! Брат!");
+						// 	}
+						// })
 						// checkMessage(message, "phx-click=\\\"fetch_from_api\\\"");
 						// checkMessage(message, "Получить данные из API");
 						// checkMessage(message, "Привет! Брат!");
