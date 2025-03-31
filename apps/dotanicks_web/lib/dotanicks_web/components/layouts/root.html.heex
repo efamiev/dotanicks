@@ -1,29 +1,42 @@
 <!DOCTYPE html>
 <html lang="ru" class="bg-gray-950 text-gray-100">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="csrf-token" content={get_csrf_token()} />
-  <.live_title default="Dotanicks — генератор никнеймов по Dota 2" suffix=" | dota nicks, дота 2 ники">
-    {assigns[:page_title]}
-  </.live_title>
-  <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
-  <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}></script>
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-
-  <!-- SEO META -->
-  <meta name="description" content="Dotanicks — генератор никнеймов по твоим матчам в Dota 2. Получи 10 смешных или обидных ников, соответствующих твоей игре.">
-  <meta name="keywords" content="dotanicks, dota nicks, dota 2 nicks, дота ники, дота 2 ники, смешные ники dota 2, генератор никнеймов dota">
-  <meta name="author" content="Dotanicks Team">
-  <meta property="og:title" content="Dotanicks — генератор никнеймов по Dota 2">
-  <meta property="og:description" content="Проанализируем твои матчи в Dota 2 и придумаем тебе 10 честных никнеймов.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://dotanicks.fun">
-  <meta property="og:image" content="https://dotanicks.fun/preview.jpg">
-</head>
-<body class="flex flex-col min-h-screen font-sans">
-  {@inner_content}
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <.live_title
+      default="Dotanicks | AI генератор никнеймов по Dota 2"
+      suffix=" | dota nicks, дота 2 ники"
+    >
+      {assigns[:page_title]}
+    </.live_title>
+    <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
+    </script>
+    
+<!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    
+<!-- SEO META -->
+    <meta
+      name="description"
+      content="Dotanicks — AI генератор никнеймов матчам в Dota 2. Получи 10 смешных или обидных ников, сгенерированые искусственным интеллектом, на анализе матчей."
+    />
+    <meta
+      name="keywords"
+      content="dotanicks, dota nicks, dota 2 nicks, дота ники, дота 2 ники, смешные ники dota 2, генератор никнеймов dota"
+    />
+    <meta name="author" content="Dotanicks Team" />
+    <meta property="og:title" content="Dotanicks — генератор никнеймов по Dota 2" />
+    <meta
+      property="og:description"
+      content="Проанализируем твои матчи в Dota 2 и придумаем тебе 10 честных никнеймов."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://dotanicks.fun" />
+    <meta property="og:image" content="https://dotanicks.fun/preview.jpg" />
+  </head>
+  <body class="flex flex-col min-h-screen font-sans">
+    {@inner_content}
+  </body>
 </html>

@@ -10,7 +10,7 @@ defmodule DotanicksWeb.DotanicksLive.Index do
      |> assign(:loading_text, "")
      |> assign(:nicks, [])
      |> assign(:prev_nicks, [])
-     |> assign(:page_title, "Dotanicks — генератор никнеймов по Dota 2")}
+     |> assign(:page_title, "Dotanicks | генератор никнеймов по Dota 2")}
   end
 
   @impl true
@@ -22,6 +22,7 @@ defmodule DotanicksWeb.DotanicksLive.Index do
   def handle_event("generate", %{"dotabuff_url" => dotabuff_url}, socket) do
     id = profile_id(dotabuff_url)
 
+    Phoenix.PubSub.subscribe(Dotanicks.PubSub, "nicks:#{id}")
     Dotanicks.generate(id)
 
     {:noreply,
@@ -31,9 +32,23 @@ defmodule DotanicksWeb.DotanicksLive.Index do
      |> push_patch(to: "/#{id}")}
   end
 
-  defp apply_action(socket, :generate, %{"id" => id}) do
-    Phoenix.PubSub.subscribe(Dotanicks.PubSub, "nicks:#{id}")
+  def handle_event("update", %{"dotabuff_url" => dotabuff_url}, socket) do
+    id = profile_id(dotabuff_url)
 
+    {:noreply,
+     socket
+     |> assign(:dotabuff_url, dotabuff_url)}
+  end
+
+  def handle_event("show_history", _params, socket) do
+    id = profile_id(socket.assigns.dotabuff_url)
+
+    {:noreply,
+     socket
+     |> push_patch(to: "/#{id}")}
+  end
+
+  defp apply_action(socket, _action, %{"id" => id}) do
     socket
     |> assign(:prev_nicks, load_prev_nicks(id))
     |> assign(:dotabuff_url, "https://www.dotabuff.com/players/#{id}")

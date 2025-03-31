@@ -1,8 +1,7 @@
 <!-- Header -->
 <header class="border-b border-gray-800 py-6">
   <div class="container mx-auto px-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0">
-    <!-- <span class="text-3xl font-bold text-indigo-300">Dotanicks</span> -->
-    <.link navigate="/" class="text-3xl font-bold text-indigo-300">Dotanicks</.link>
+    <span class="text-3xl font-bold text-indigo-300">Dotanicks</span>
     <nav class="text-sm flex gap-4">
       <.link navigate="/" class="text-indigo-200 underline underline-offset-4 hover:text-indigo-300 transition">Главная</.link>
       <.link navigate="/persons" class="text-indigo-200 underline underline-offset-4 hover:text-indigo-300 transition">
@@ -18,16 +17,29 @@
 <!-- Вступление -->
     <section class="space-y-4">
       <h1 class="text-3xl font-bold text-indigo-200">Dotanicks — AI генератор никнеймов по Dota 2</h1>
+      <h2 class="text-xl font-bold text-indigo-200">Ники про игроков и стримеров</h2>
       <p class="text-gray-400 text-sm max-w-3xl leading-relaxed">
-        Добро пожаловать в <span class="text-indigo-200 font-semibold">Dotanicks</span>
-        — сервис с искусственным интеллектом, который на основе твоих матчей в Dota 2
-        создаёт максимально честные никнеймы.<br />
-        Просто вставь ссылку на свой <span class="italic">Dotabuff</span>, нажми кнопку — и узнай, как тебя бы звали, если бы ники выдавал IceFrog лично.
+        Тут собраны ники, которые сгенерировал AI по матчам известных игроков, стримеров и контент-мейкеров по Dota 2.<br />
+        Ники обновляются каждую неделю.
       </p>
     </section>
 
     <.flash_group flash={@flash} />
-    {@inner_content}
+
+    <div :for={person <- @persons} class="bg-gray-800 border border-gray-700 p-6 rounded-lg">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold text-indigo-200">{person.name}</h2>
+        <a href={"https://www.dotabuff.com/players/#{person.id}"} target="_blank" class="text-sm text-indigo-400 hover:underline">
+          Dotabuff
+        </a>
+      </div>
+      <ul class="space-y-2 text-sm text-gray-300 list-inside">
+        <li :for={nick <- person.nicks}>
+          <div class="text-indigo-200 font-medium">{nick.name}</div>
+          <div>{nick.desctiption}</div>
+        </li>
+      </ul>
+    </div>
   </div>
 </main>
 

@@ -1,7 +1,7 @@
 <!-- Генерация -->
 <section class="space-y-6">
   <h2 class="text-xl font-semibold text-indigo-200">Сгенерировать ники</h2>
-  <form id="nickname_form" class="space-y-4" phx-submit="generate">
+  <form id="nickname_form" class="space-y-4" phx-change="update" phx-submit="generate">
     <label for="dotabuff_url" class="block text-sm text-gray-400">Ссылка на Dotabuff</label>
 
     <div class="flex flex-col md:flex-row md:items-center md:gap-4 gap-2">
@@ -19,9 +19,10 @@
         <button
           type="button"
           id="scrollToResults"
+          phx-click="show_history"
           class="md:w-auto w-full py-2 px-4 bg-gray-700 hover:bg-gray-600 transition rounded text-white font-medium"
         >
-          Показать историю	
+          Показать историю
         </button>
         <button
           type="submit"
@@ -51,13 +52,19 @@
 
 <!-- История -->
 <section :if={@prev_nicks != []}>
-  <h2 class="text-xl font-semibold text-purple-300">История ников</h2>
+  <h2 class="text-xl font-semibold text-purple-300">История ников профиля</h2>
   <div id="historyList" class="mt-4 space-y-4 text-sm text-gray-300">
     <div :for={{timestamp, prev_nicks} <- @prev_nicks} class="bg-gray-800 p-4 rounded-lg border border-gray-700">
-      <div class="font-semibold text-indigo-200 cursor-pointer hover:underline">{timestamp |> DateTime.from_unix!() |> DateTime.shift_zone!("Asia/Tashkent") |> Calendar.strftime("%d.%m.%Y %H:%M")}</div>
+      <div class="font-semibold text-indigo-200 cursor-pointer hover:underline">
+        Сгенерировано {timestamp
+        |> DateTime.from_unix!()
+        |> DateTime.shift_zone!("Asia/Tashkent")
+        |> Calendar.strftime("%d.%m.%Y %H:%M")}
+      </div>
       <div class="mt-2 space-y-2">
         <div :for={prev_nick <- prev_nicks} class="bg-gray-900 p-3 rounded border border-gray-700">
-          <div><span class="font-bold text-indigo-200">{prev_nick["name"]}</span> — <span class="text-gray-400">{prev_nick["description"]}</span></div>
+          <div class="font-bold text-indigo-200">{prev_nick["name"]}</div>
+          <div class="text-gray-400">{prev_nick["description"]}</div>
         </div>
       </div>
     </div>
