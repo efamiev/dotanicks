@@ -1,47 +1,64 @@
-<section class="bg-gray-800 rounded-lg border border-gray-700 p-6 shadow-sm">
-  <h2 class="text-xl font-medium mb-4">Введите ссылку на свои матчи:</h2>
-  <form id="nickname_form" class="flex flex-col sm:flex-row gap-4" phx-submit="generate">
-    <input
-      type="url"
-      name="dotabuff_url"
-      placeholder="https://www.dotabuff.com/players/321580662"
-      value={@dotabuff_url}
-      required
-      class="flex-1 border border-gray-600 rounded px-4 py-3 bg-gray-700 text-gray-100 focus:outline-none focus:border-red-500"
-    />
-    <button type="submit" id="analyze_button" class="bg-red-500 text-white rounded px-6 py-3 hover:bg-red-600 transition">
-      Анализировать
-    </button>
+<!-- Генерация -->
+<section class="space-y-6">
+  <h2 class="text-xl font-semibold text-indigo-200">Сгенерировать ники</h2>
+  <form id="nickname_form" class="space-y-4" phx-submit="generate">
+    <label for="dotabuff_url" class="block text-sm text-gray-400">Ссылка на Dotabuff</label>
+
+    <div class="flex flex-col md:flex-row md:items-center md:gap-4 gap-2">
+      <input
+        type="url"
+        id="dotabuff_url"
+        name="dotabuff_url"
+        placeholder="https://www.dotabuff.com/players/123456789"
+        value={@dotabuff_url}
+        required
+        class="flex-grow px-4 py-2 bg-gray-800 border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+
+      <div class="flex flex-col md:flex-row md:gap-2 gap-2 w-full md:w-auto">
+        <button
+          type="button"
+          id="scrollToResults"
+          class="md:w-auto w-full py-2 px-4 bg-gray-700 hover:bg-gray-600 transition rounded text-white font-medium"
+        >
+          Показать историю	
+        </button>
+        <button
+          type="submit"
+          class="md:w-auto w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 transition rounded text-white font-semibold shadow-sm"
+        >
+          Сгенерировать
+        </button>
+      </div>
+    </div>
   </form>
-</section>
-<section :if={@loading} id="results" class="mt-8">
-  <div class="flex items-center justify-center space-x-2 py-8">
-    <svg class="animate-spin h-8 w-8 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
-    </svg>
-    <span class="text-lg">{@loading_text}</span>
+
+  <div :if={@loading} id="loading" class="text-center text-sm text-gray-400">
+    Анализируем...
   </div>
 </section>
 
-<section :if={@nicks != []} id="results" class="mt-8">
-  <h2 class="text-xl font-medium mb-4">Предложенные никнеймы</h2>
-  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-    <div :for={nick <- @nicks} class="bg-gray-800 border border-gray-700 rounded p-4">
-      <h3 class="text-lg font-semibold">{nick["name"]}</h3>
-      <p class="text-sm text-gray-400">{nick["description"]}</p>
+<!-- Результаты -->
+<section :if={@nicks != []} id="results" class="space-y-6">
+  <h2 class="text-xl font-semibold text-indigo-200">Никнеймы профиля:</h2>
+  <div id="nicknameList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div :for={nick <- @nicks} class="p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-indigo-400 transition">
+      <div class="text-lg font-semibold text-indigo-200">{nick["name"]}</div>
+      <div class="text-sm text-gray-400 mt-1">{nick["description"]}</div>
     </div>
   </div>
 </section>
 
-<section :if={@prev_nicks != []} id="results" class="mt-8">
-  <h3 class="text-xl font-medium mb-4">История ников</h3>
-  <div :for={{timestamp, prev_nicks} <- @prev_nicks} class="bg-gray-800 border border-gray-700 rounded p-4">
-    {timestamp |> DateTime.from_unix!() |> DateTime.shift_zone!("Asia/Tashkent") |> Calendar.strftime("%d.%m.%Y %H:%M")}
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <div :for={prev_nick <- prev_nicks} class="bg-gray-800 border border-gray-700 rounded p-4">
-        <h3 class="text-lg font-semibold">{prev_nick["name"]}</h3>
-        <p class="text-sm text-gray-400">{prev_nick["description"]}</p>
+<!-- История -->
+<section :if={@prev_nicks != []}>
+  <h2 class="text-xl font-semibold text-purple-300">История ников</h2>
+  <div id="historyList" class="mt-4 space-y-4 text-sm text-gray-300">
+    <div :for={{timestamp, prev_nicks} <- @prev_nicks} class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+      <div class="font-semibold text-indigo-200 cursor-pointer hover:underline">{timestamp |> DateTime.from_unix!() |> DateTime.shift_zone!("Asia/Tashkent") |> Calendar.strftime("%d.%m.%Y %H:%M")}</div>
+      <div class="mt-2 space-y-2">
+        <div :for={prev_nick <- prev_nicks} class="bg-gray-900 p-3 rounded border border-gray-700">
+          <div><span class="font-bold text-indigo-200">{prev_nick["name"]}</span> — <span class="text-gray-400">{prev_nick["description"]}</span></div>
+        </div>
       </div>
     </div>
   </div>

@@ -1,59 +1,36 @@
-<header class="bg-gray-800 border-b border-gray-700">
-  <div class="container mx-auto px-4 py-6 flex items-center justify-between">
-    <div>
-      <h1 class="text-3xl font-semibold">Генератор никнеймов для Dota 2</h1>
-      <p class="mt-2 text-sm text-gray-400">{@page_title}</p>
+  <!-- Header -->
+  <header class="border-b border-gray-800 py-6">
+    <div class="container mx-auto px-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0">
+      <span class="text-3xl font-bold text-indigo-300">Dotanicks</span>
+      <nav class="text-sm flex gap-4">
+        <.link navigate="/" class="text-indigo-200 underline underline-offset-4 hover:text-indigo-300 transition">Главная</.link>
+        <.link navigate="/persons" class="text-indigo-200 underline underline-offset-4 hover:text-indigo-300 transition">
+          Про игроки/стримеры
+        </.link>
+      </nav>
     </div>
-    <nav class="relative">
-      <!-- Кнопка для мобильного меню -->
-      <button class="text-gray-100 md:hidden" id="menuToggle">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
-      <!-- Меню для десктопа -->
-      <ul class="hidden md:flex space-x-6" id="menu">
-        <li><.link navigate="/" class="text-gray-100 hover:text-red-500">Главная</.link></li>
-        <li>
-          <.link navigate="/persons" class="text-gray-100 hover:text-red-500">
-            Про игроки/стримеры
-          </.link>
-        </li>
-      </ul>
-    </nav>
-  </div>
-  <!-- Мобильное меню -->
-  <div class="md:hidden" id="mobileMenu">
-    <ul class="px-4 pb-4 space-y-2 hidden">
-      <li>
-        <a href="/persons" class="block text-gray-100 hover:text-red-500">Про игроки/стримеры</a>
-      </li>
-    </ul>
-  </div>
-</header>
+  </header>
 
-<main class="container mx-auto px-4 py-8 flex-grow">
-  <.flash_group flash={@flash} />
-  {@inner_content}
+  <main class="flex-grow py-10">
+    <div class="container mx-auto px-6 space-y-12 fade-in">
+
+    <!-- Вступление -->
+    <section class="space-y-4">
+      <h1 class="text-3xl font-bold text-indigo-200">Dotanicks — генератор никнеймов по Dota 2</h1>
+      <p class="text-gray-400 text-sm max-w-3xl leading-relaxed">
+				Добро пожаловать в <span class="text-indigo-200 font-semibold">Dotanicks</span> — сервис, который на основе твоих матчей в Dota 2
+				создаёт 10 максимально честных никнеймов.
+				Просто вставь ссылку на свой <span class="italic">Dotabuff</span>, нажми кнопку — и узнай, как тебя бы звали, если бы ники выдавал IceFrog лично.
+      </p>
+    </section>
+
+    <.flash_group flash={@flash} />
+    {@inner_content}
+
+  </div>
 </main>
 
-<footer class="bg-gray-800 border-t border-gray-700 py-4">
-  <div class="container mx-auto px-4 text-center text-sm text-gray-500">
-    <p>&copy; 2025 Генератор никнеймов для Dota 2. Все права защищены.</p>
-    <div class="mt-2">
-      <p class="font-medium">Контакты:</p>
-      <ul class="flex justify-center space-x-4 mt-1">
-        <li>
-          <a href="https://t.me/yourtelegramusername" target="_blank" class="text-red-500 hover:underline">
-            Telegram
-          </a>
-        </li>
-        <li>
-          <a href="mailto:contact@dota-nicknames.io" class="text-red-500 hover:underline">
-            contact@dota-nicknames.io
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
+<!-- Footer -->
+<footer class="container mx-auto px-6 text-center text-xs text-gray-600 py-4 border-t border-gray-800">
+  © 2025 Dotanicks — генератор дота 2 ников. <a href="/streamers" class="underline hover:text-indigo-300">Ники про игроков и стримеров</a>.
 </footer>

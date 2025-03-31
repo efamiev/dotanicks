@@ -10,7 +10,7 @@ defmodule DotanicksWeb.DotanicksLive.Index do
      |> assign(:loading_text, "")
      |> assign(:nicks, [])
      |> assign(:prev_nicks, [])
-     |> assign(:page_title, "Анализируйте свои матчи и получайте уникальные никнеймы")}
+     |> assign(:page_title, "Dotanicks — генератор никнеймов по Dota 2")}
   end
 
   @impl true

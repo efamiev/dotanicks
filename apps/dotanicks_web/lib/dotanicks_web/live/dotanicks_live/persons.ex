@@ -6,7 +6,7 @@ defmodule DotanicksWeb.DotanicksLive.Persons do
     {:ok,
      socket
      |> assign(:persons, persons())
-     |> assign(:page_title, "Профессиональные игроки с уникальными никнеймами")}
+     |> assign(:page_title, "Dotanicks — никнеймы игроков и стримеров по Dota 2")}
   end
 
   def persons do

@@ -3,3 +3,16 @@
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+body {
+	/* font-family: 'Share Tech Mono', monospace; */
+	background: radial-gradient(circle at top, #0f172a, #000);
+}
+
+.fade-in {
+	animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+	from { opacity: 0; transform: translateY(10px); }
+	to { opacity: 1; transform: translateY(0); }
+}
