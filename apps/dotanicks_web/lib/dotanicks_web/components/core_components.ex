@@ -611,9 +611,10 @@ defmodule DotanicksWeb.CoreComponents do
     )
   end
 
-  def toggle(js \\ %JS{}, selector) do
-    JS.toggle(js,
-      to: selector
+  def toggle(selector, display \\ "block") do
+    JS.toggle(%JS{},
+      to: selector,
+      display: display
     )
   end
 
