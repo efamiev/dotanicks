@@ -37,7 +37,7 @@ defmodule DotanicksWeb.DotanicksLive.Index do
      socket
      |> assign(:loading, true)
      |> assign(:loading_text, "Генерируем ники для профиля #{id}")
-     |> push_patch(to: "/#{id}")}
+     |> push_patch(to: "/nicks/#{id}")}
   end
 
   def handle_event("update", %{"dotabuff_url" => dotabuff_url}, socket) do
@@ -49,7 +49,7 @@ defmodule DotanicksWeb.DotanicksLive.Index do
   end
 
   def handle_event("show_history", _params, %{assigns: %{dotabuff_url: dotabuff_url}} = socket) do
-    {:noreply, push_patch(socket, to: "/#{profile_id(dotabuff_url)}")}
+    {:noreply, push_patch(socket, to: "/nicks/#{profile_id(dotabuff_url)}")}
   end
 
   @impl true
