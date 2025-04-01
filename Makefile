@@ -35,20 +35,5 @@ dev-deps-stop:
 dev-app-start:
 	set -a && source .env && set +a && mix deps.clean dotanicks --build && MIX_ENV=dev iex -S mix phx.server 
 
-# Коммады для билда нужно актуализировать
-up-release:
-	docker run -p 4000:4000 --env-file ./.env.prod -it bar_joker_prod 
-
-# написать скрипт для создания билда
-build-release:
-	docker-compose -f docker-compose.prod.yml up --build
-
-# написать скрипт для пуша образа билда в частный реестр
-
-# написать скрипт для обновления билда на сервере
-# порядок деплоя: 
-# 1. docker login
-# 2. docker tag bar_joker_prod 45.11.26.85:5000/bar_joker_prod
-# 3. docker push 45.11.26.85:5000/bar_joker_prod
-# 4. на сервере выполнить команду BarJoker.Releases.create_and_migrate
-# не забыть вернуть location в конфиге nginx на сервере
+dotabuff-mock:
+	MIX_ENV=test mix run -e "DotabuffMock.save_page(176_586_336)"
