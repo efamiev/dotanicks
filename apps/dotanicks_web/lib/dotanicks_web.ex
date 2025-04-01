@@ -53,6 +53,8 @@ defmodule DotanicksWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
+        # Для вывода логов live_view в проде
+        log: :info,
         container: {:div, class: "flex block flex-col min-h-screen"},
         layout: {DotanicksWeb.Layouts, :app}
 

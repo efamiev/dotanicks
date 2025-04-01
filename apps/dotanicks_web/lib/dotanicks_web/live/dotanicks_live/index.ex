@@ -1,8 +1,12 @@
 defmodule DotanicksWeb.DotanicksLive.Index do
   use DotanicksWeb, :live_view
 
+  require Logger
+
   @impl true
   def mount(_params, _session, socket) do
+    put_logger_metadata(Map.new(get_connect_info(socket, :x_headers)))
+
     {:ok,
      socket
      |> assign(:dotabuff_url, "")
@@ -97,5 +101,9 @@ defmodule DotanicksWeb.DotanicksLive.Index do
     |> Map.get(:path)
     |> String.split("/", trim: true)
     |> Enum.at(1)
+  end
+
+  def put_logger_metadata(%{"x-request-id" => request_id}) do
+    Logger.metadata(request_id: request_id)
   end
 end

@@ -25,6 +25,8 @@
         </button>
         <button
           type="submit"
+          disabled={@loading}
+          phx-disable-with="Saving..."
           class="md:w-auto w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 transition rounded text-white font-semibold shadow-sm"
         >
           Сгенерировать
