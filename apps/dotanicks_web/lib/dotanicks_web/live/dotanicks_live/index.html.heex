@@ -60,10 +60,10 @@
       class="text-sm font-semibold text-indigo-200 cursor-pointer hover:underline flex items-center"
       phx-click={toggle("#history-#{index}", "grid")}
     >
-      <.icon id="expand-icon" name="hero-plus" class="w-6 h-6 mr-2" />
+      <.icon name="hero-plus" class="w-6 h-6 mr-2" />
       Сгенерировано {timestamp
       |> DateTime.from_unix!()
-      |> DateTime.shift_zone!("Asia/Tashkent")
+      |> DateTime.shift_zone!(@timezone)
       |> Calendar.strftime("%d.%m.%Y %H:%M")}
     </div>
     <div id={"history-#{index}"} class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

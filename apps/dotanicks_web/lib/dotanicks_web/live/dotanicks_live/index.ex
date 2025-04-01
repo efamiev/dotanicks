@@ -9,7 +9,8 @@ defmodule DotanicksWeb.DotanicksLive.Index do
      |> assign(:loading, false)
      |> assign(:loading_text, "")
      |> assign(:nicks, [])
-     |> assign(:prev_nicks, [])}
+     |> assign(:prev_nicks, [])
+     |> assign_timezone}
   end
 
   @impl true
@@ -47,16 +48,6 @@ defmodule DotanicksWeb.DotanicksLive.Index do
     {:noreply, push_patch(socket, to: "/#{profile_id(dotabuff_url)}")}
   end
 
-  defp apply_action(socket, _action, %{"id" => id}) do
-    socket
-    |> assign(:prev_nicks, load_nicks_history(id))
-    |> assign(:dotabuff_url, "https://www.dotabuff.com/players/#{id}")
-  end
-
-  defp apply_action(socket, _action, _params) do
-    socket
-  end
-
   @impl true
   def handle_info({:core_event, {:ok, nicks}}, socket) do
     {:noreply,
@@ -75,6 +66,22 @@ defmodule DotanicksWeb.DotanicksLive.Index do
 
   def handle_info(_, socket) do
     {:noreply, socket}
+  end
+
+  def assign_timezone(socket) do
+    timezone = get_connect_params(socket)["timezone"] || "Europe/Moscow"
+
+    assign(socket, :timezone, timezone)
+  end
+
+  defp apply_action(socket, _action, %{"id" => id}) do
+    socket
+    |> assign(:prev_nicks, load_nicks_history(id))
+    |> assign(:dotabuff_url, "https://www.dotabuff.com/players/#{id}")
+  end
+
+  defp apply_action(socket, _action, _params) do
+    socket
   end
 
   def load_nicks_history(id) do
