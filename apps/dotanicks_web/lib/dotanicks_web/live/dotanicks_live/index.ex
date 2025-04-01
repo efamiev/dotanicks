@@ -106,4 +106,7 @@ defmodule DotanicksWeb.DotanicksLive.Index do
   def put_logger_metadata(%{"x-request-id" => request_id}) do
     Logger.metadata(request_id: request_id)
   end
+
+  def put_logger_metadata(_) do
+  end
 end

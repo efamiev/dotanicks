@@ -28,13 +28,12 @@ defmodule DotanicksWeb.Router do
   scope "/", DotanicksWeb do
     pipe_through :browser
 
-    get "/persons", PageController, :persons
-    
-    # Rewrite to controller page and sse
-    live "/nicks/:id", DotanicksLive.Index
-
     # Rewrite to controller page
     live "/", DotanicksLive.Index
+    live "/nicks/:id", DotanicksLive.Index
+
+    # Rewrite to controller page and sse
+    get "/persons", PageController, :persons
 
     # get "/", PageController, :home
   end
