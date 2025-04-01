@@ -610,7 +610,7 @@ defmodule DotanicksWeb.CoreComponents do
          "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"}
     )
   end
-  
+
   def toggle(js \\ %JS{}, selector) do
     JS.toggle(js,
       to: selector

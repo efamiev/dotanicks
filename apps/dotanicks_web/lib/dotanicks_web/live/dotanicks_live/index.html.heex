@@ -54,7 +54,10 @@
 <section :if={@prev_nicks != []}>
   <h2 class="text-xl font-semibold text-purple-300">История ников профиля</h2>
   <div id="historyList" class="mt-4 space-y-4 text-sm text-gray-300">
-    <div :for={{{timestamp, prev_nicks}, index} <- Enum.with_index(@prev_nicks)} class="bg-gray-800 p-4 rounded-lg border border-gray-700">
+    <div
+      :for={{{timestamp, prev_nicks}, index} <- Enum.with_index(@prev_nicks)}
+      class="bg-gray-800 p-4 rounded-lg border border-gray-700"
+    >
       <div class="font-semibold text-indigo-200 cursor-pointer hover:underline" phx-click={toggle("#history-#{index}")}>
         Сгенерировано {timestamp
         |> DateTime.from_unix!()
