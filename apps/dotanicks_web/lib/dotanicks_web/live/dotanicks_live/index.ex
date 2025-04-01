@@ -64,7 +64,6 @@ defmodule DotanicksWeb.DotanicksLive.Index do
     {:noreply,
      socket
      |> update(:loading, fn _ -> false end)
-     |> update(:nicks, fn _ -> [] end)
      |> put_flash(:error, "Ошибка генерации ников")}
   end
 
@@ -80,6 +79,7 @@ defmodule DotanicksWeb.DotanicksLive.Index do
 
   defp apply_action(socket, _action, %{"id" => id}) do
     socket
+    |> assign(:nicks, [])
     |> assign(:prev_nicks, load_nicks_history(id))
     |> assign(:dotabuff_url, "https://www.dotabuff.com/players/#{id}")
   end
