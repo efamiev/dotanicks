@@ -1,10 +1,10 @@
 <!-- Header -->
 <header class="border-b border-gray-800 py-6">
   <div class="container mx-auto px-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0">
-    <.link navigate="/" class="text-3xl font-bold text-indigo-300">Dotanicks</.link>
+    <.link href="/" class="text-3xl font-bold text-indigo-300">Dotanicks</.link>
     <nav class="text-sm flex gap-4">
-      <.link navigate="/" class="text-indigo-200 underline underline-offset-4 hover:text-indigo-300 transition">Главная</.link>
-      <.link navigate="/persons" class="text-indigo-200 underline underline-offset-4 hover:text-indigo-300 transition">
+      <.link href="/" class="text-indigo-200 underline underline-offset-4 hover:text-indigo-300 transition">Главная</.link>
+      <.link href="/persons" class="text-indigo-200 underline underline-offset-4 hover:text-indigo-300 transition">
         Про игроки/стримеры
       </.link>
     </nav>
@@ -21,7 +21,7 @@
         Добро пожаловать в <span class="text-indigo-200 font-semibold">Dotanicks</span>
         — сервис с искусственным интеллектом, который на основе матчей в Dota 2
         создаёт максимально честные никнеймы.<br />
-        Просто вставь ссылку на <span class="italic">Dotabuff</span>, нажми кнопку — и узнай, как тебя бы звали, если бы ники выдавал IceFrog лично.
+        Просто вставь ссылку на <a href="https://www.dotabuff.com" class="italic">Dotabuff</a>, нажми кнопку — и узнай, как тебя бы звали, если бы ники выдавал IceFrog лично.
       </p>
     </section>
 
@@ -32,5 +32,5 @@
 
 <!-- Footer -->
 <footer class="container mx-auto px-6 text-center text-xs text-gray-600 py-4 border-t border-gray-800">
-  © 2025 Dotanicks — генератор дота 2 ников. <a href="/persons" class="underline hover:text-indigo-300">Ники про игроков и стримеров</a>.
+  © 2025 Dotanicks — генератор дота 2 ников. <.link href="/persons" class="underline hover:text-indigo-300">Ники про игроков и стримеров</.link>.
 </footer>

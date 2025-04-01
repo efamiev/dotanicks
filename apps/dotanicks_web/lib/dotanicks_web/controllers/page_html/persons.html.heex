@@ -3,8 +3,8 @@
   <div class="container mx-auto px-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0">
     <.link navigate="/" class="text-3xl font-bold text-indigo-300">Dotanicks</.link>
     <nav class="text-sm flex gap-4">
-      <.link navigate="/" class="text-indigo-200 underline underline-offset-4 hover:text-indigo-300 transition">Главная</.link>
-      <.link navigate="/persons" class="text-indigo-200 underline underline-offset-4 hover:text-indigo-300 transition">
+      <.link href="/" class="text-indigo-200 underline underline-offset-4 hover:text-indigo-300 transition">Главная</.link>
+      <.link href="/persons" class="text-indigo-200 underline underline-offset-4 hover:text-indigo-300 transition">
         Про игроки/стримеры
       </.link>
     </nav>
@@ -33,17 +33,37 @@
           Dotabuff
         </a>
       </div>
-      <ul class="space-y-2 text-sm text-gray-300 list-inside">
-        <li :for={nick <- person.nicks}>
-          <div class="text-indigo-200 font-medium">{nick.name}</div>
-          <div>{nick.desctiption}</div>
-        </li>
-      </ul>
+      <div id="nicknameList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-indigo-400 transition">
+          <div class="text-lg font-semibold text-indigo-200">Ник</div>
+          <div class="text-sm text-gray-400 mt-1">Описание</div>
+        </div>
+        <div class="p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-indigo-400 transition">
+          <div class="text-lg font-semibold text-indigo-200">Ник</div>
+          <div class="text-sm text-gray-400 mt-1">Описание</div>
+        </div>
+        <div class="p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-indigo-400 transition">
+          <div class="text-lg font-semibold text-indigo-200">Ник</div>
+          <div class="text-sm text-gray-400 mt-1">Описание</div>
+        </div>
+        <div class="p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-indigo-400 transition">
+          <div class="text-lg font-semibold text-indigo-200">Ник</div>
+          <div class="text-sm text-gray-400 mt-1">Описание</div>
+        </div>
+        <div class="p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-indigo-400 transition">
+          <div class="text-lg font-semibold text-indigo-200">Ник</div>
+          <div class="text-sm text-gray-400 mt-1">Описание</div>
+        </div>
+        <div class="p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-indigo-400 transition">
+          <div class="text-lg font-semibold text-indigo-200">Ник</div>
+          <div class="text-sm text-gray-400 mt-1">Описание</div>
+        </div>
+      </div>
     </div>
   </div>
 </main>
 
 <!-- Footer -->
 <footer class="container mx-auto px-6 text-center text-xs text-gray-600 py-4 border-t border-gray-800">
-  © 2025 Dotanicks — генератор дота 2 ников. <a href="/persons" class="underline hover:text-indigo-300">Ники про игроков и стримеров</a>.
+  © 2025 Dotanicks — генератор дота 2 ников. <.link href="/persons" class="underline hover:text-indigo-300">Ники про игроков и стримеров</.link>.
 </footer>
