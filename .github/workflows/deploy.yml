@@ -2,7 +2,7 @@ name: Deploy Phoenix LiveView
 
 on:
   push:
-    branches: ["deploy"]
+    branches: ["main"]
 
 jobs:
   deploy:
