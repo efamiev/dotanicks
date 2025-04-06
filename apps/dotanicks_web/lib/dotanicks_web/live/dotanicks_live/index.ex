@@ -11,7 +11,6 @@ defmodule DotanicksWeb.DotanicksLive.Index do
      socket
      |> assign(:dotabuff_url, "")
      |> assign(:loading, false)
-     |> assign(:loading_text, "")
      |> assign(:nicks, [])
      |> assign(:prev_nicks, [])
      |> assign_timezone}
@@ -36,7 +35,6 @@ defmodule DotanicksWeb.DotanicksLive.Index do
     {:noreply,
      socket
      |> assign(:loading, true)
-     |> assign(:loading_text, "Генерируем ники для профиля #{id}")
      |> push_patch(to: "/nicks/#{id}")}
   end
 
@@ -89,8 +87,8 @@ defmodule DotanicksWeb.DotanicksLive.Index do
   end
 
   def load_nicks_history(id) do
-    case Dotanicks.NicksHistory.get_all(id) do
-      [{^id, list}] -> [list]
+    case Dotanicks.NicksHistory.get(id) do
+      [{^id, list}] -> list
       _ -> []
     end
   end

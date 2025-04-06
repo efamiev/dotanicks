@@ -1,9 +1,9 @@
 defmodule Dotanicks.ParserTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   alias Dotanicks.Parser
 
-  test "get matches data from html" do
+  test "gets matches data from html" do
     html = File.read!(Path.join(File.cwd!(), "/test/support/mocks/dotabuff.html"))
 
     assert [

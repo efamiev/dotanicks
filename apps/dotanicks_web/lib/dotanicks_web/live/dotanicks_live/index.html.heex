@@ -67,7 +67,7 @@
       |> DateTime.shift_zone!(@timezone)
       |> Calendar.strftime("%d.%m.%Y %H:%M")}
     </div>
-    <div id={"history-#{index}"} class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div id={"history-#{index}"} class={["grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4", if(index != 0, do: "hidden")]}>
       <div
         :for={prev_nick <- prev_nicks}
         class="p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-indigo-400 transition"
