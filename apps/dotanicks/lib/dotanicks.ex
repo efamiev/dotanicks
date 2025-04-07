@@ -12,11 +12,11 @@ defmodule Dotanicks do
 
   def do_generate(id) do
     with {:ok, body} <- fetch_matches(id),
-         matches when matches != [] <- Parser.parse_mochi(body),
+         {profile_name, matches} when matches != [] <- Parser.parse(body),
          {:ok, nicks} <- fetch_nicks(matches) do
-      Dotanicks.NicksHistory.add(id, nicks)
+      Dotanicks.NicksHistory.add(id, profile_name, nicks)
 
-      Phoenix.PubSub.broadcast(Dotanicks.PubSub, "nicks:#{id}", {:core_event, {:ok, nicks}})
+      Phoenix.PubSub.broadcast(Dotanicks.PubSub, "nicks:#{id}", {:core_event, {:ok, {profile_name, nicks}}})
     else
       [] ->
         Logger.info("Не найдены мачти для аккаунта #{id}")

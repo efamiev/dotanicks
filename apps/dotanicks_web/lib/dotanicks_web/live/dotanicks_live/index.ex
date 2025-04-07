@@ -13,6 +13,7 @@ defmodule DotanicksWeb.DotanicksLive.Index do
      |> assign(:loading, false)
      |> assign(:nicks, [])
      |> assign(:prev_nicks, [])
+     |> assign(:profile_name, "")
      |> assign_timezone}
   end
 
@@ -51,11 +52,12 @@ defmodule DotanicksWeb.DotanicksLive.Index do
   end
 
   @impl true
-  def handle_info({:core_event, {:ok, nicks}}, socket) do
+  def handle_info({:core_event, {:ok, {profile_name, nicks}}}, socket) do
     {:noreply,
      socket
-     |> update(:loading, fn _ -> false end)
-     |> update(:nicks, fn _ -> nicks end)}
+     |> assign(:loading, false)
+     |> assign(:profile_name, profile_name)
+     |> assign(:nicks, nicks)}
   end
 
   def handle_info({:core_event, {:error, err}}, socket) do
@@ -76,9 +78,16 @@ defmodule DotanicksWeb.DotanicksLive.Index do
   end
 
   defp apply_action(socket, _action, %{"id" => id}) do
+    {profile_name, prev_nicks} =
+      case load_nicks_history(id) do
+        [] -> {"", []}
+        [{_timestamp, profile_name, _data} | _] = res -> {profile_name, res}
+      end
+
     socket
     |> assign(:nicks, [])
-    |> assign(:prev_nicks, load_nicks_history(id))
+    |> assign(:prev_nicks, prev_nicks)
+    |> assign(:profile_name, profile_name)
     |> assign(:dotabuff_url, "https://www.dotabuff.com/players/#{id}")
   end
 

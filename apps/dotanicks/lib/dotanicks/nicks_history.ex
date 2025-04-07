@@ -18,13 +18,13 @@ defmodule Dotanicks.NicksHistory do
     @table
   end
 
-  def add(task_id, data) do
+  def add(profile_id, profile_name, data) do
     timestamp = System.system_time(:second)
-    GenServer.call(__MODULE__, {:add, task_id, {timestamp, data}})
+    GenServer.call(__MODULE__, {:add, profile_id, {timestamp, profile_name, data}})
   end
 
-  def get(task_id) do
-    GenServer.call(__MODULE__, {:get, task_id})
+  def get(profile_id) do
+    GenServer.call(__MODULE__, {:get, profile_id})
   end
 
   ## --- GenServer callbacks ---
@@ -53,8 +53,8 @@ defmodule Dotanicks.NicksHistory do
     {:reply, :ok, state}
   end
 
-  def handle_call({:get, task_id}, _from, state) do
-    result = :dets.lookup(@table, task_id)
+  def handle_call({:get, profile_id}, _from, state) do
+    result = :dets.lookup(@table, profile_id)
 
     {:reply, result, state}
   end

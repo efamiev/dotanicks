@@ -7,6 +7,7 @@ defmodule Dotanicks.NicksHistoryTest do
     table = NicksHistory.get_table()
 
     id = "311360822"
+    profile_name = "Alliance.Loda"
 
     data1 = [
       %{
@@ -41,11 +42,11 @@ defmodule Dotanicks.NicksHistoryTest do
       }
     ]
 
-    assert :ok == NicksHistory.add(id, data1)
-    assert [{^id, [{_, ^data1}]}] = :dets.lookup(table, "311360822")
+    assert :ok == NicksHistory.add(id, profile_name, data1)
+    assert [{^id, [{_, ^profile_name, ^data1}]}] = :dets.lookup(table, "311360822")
 
-    assert :ok == NicksHistory.add(id, data2)
-    assert [{^id, [{_, ^data2}, {_, ^data1}]}] = :dets.lookup(table, "311360822")
+    assert :ok == NicksHistory.add(id, profile_name, data2)
+    assert [{^id, [{_, ^profile_name, ^data2}, {_, ^profile_name, ^data1}]}] = :dets.lookup(table, "311360822")
 
     :dets.delete_all_objects(table)
   end
@@ -54,6 +55,7 @@ defmodule Dotanicks.NicksHistoryTest do
     table = NicksHistory.get_table()
 
     id = "123051238"
+    profile_name = "Alliance.Loda"
 
     data1 = [
       %{
@@ -88,10 +90,10 @@ defmodule Dotanicks.NicksHistoryTest do
       }
     ]
 
-    assert :ok == NicksHistory.add(id, data1)
-    assert :ok == NicksHistory.add(id, data2)
+    assert :ok == NicksHistory.add(id, profile_name, data1)
+    assert :ok == NicksHistory.add(id, profile_name, data2)
 
-    assert [{^id, [{_, ^data2}, {_, ^data1}]}] = NicksHistory.get(id)
+    assert [{^id, [{_, ^profile_name, ^data2}, {_, ^profile_name, ^data1}]}] = NicksHistory.get(id)
 
     :dets.delete_all_objects(table)
   end

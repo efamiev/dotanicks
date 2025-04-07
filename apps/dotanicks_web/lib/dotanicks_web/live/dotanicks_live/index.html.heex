@@ -41,7 +41,7 @@
 
 <!-- Результаты -->
 <section :if={@nicks != []} class="space-y-6">
-  <h2 class="text-xl font-semibold text-indigo-200">Никнеймы профиля:</h2>
+  <h2 class="text-xl font-semibold text-indigo-200">Никнеймы профиля <.link href={@dotabuff_url}>{@profile_name}</.link></h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     <div :for={nick <- @nicks} class="p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-indigo-400 transition">
       <div class="text-lg font-semibold text-indigo-200">{nick["name"]}</div>
@@ -52,9 +52,9 @@
 
 <!-- История -->
 <section :if={@prev_nicks != []} class="space-y-6">
-  <h3 class="text-xl font-semibold text-purple-300">История ников профиля</h3>
+  <h3 class="text-xl font-semibold text-purple-300">История ников <.link href={@dotabuff_url}>{@profile_name}</.link></h3>
   <div
-    :for={{{timestamp, prev_nicks}, index} <- Enum.with_index(@prev_nicks)}
+    :for={{{timestamp, _profile_name, prev_nicks}, index} <- Enum.with_index(@prev_nicks)}
     class="bg-gray-800 border border-gray-700 p-6 rounded-lg space-y-4"
   >
     <div
