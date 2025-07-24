@@ -41,7 +41,7 @@
 
 <!-- Результаты -->
 <section :if={@nicks != []} class="space-y-6">
-  <h2 class="text-xl font-semibold text-indigo-200">Никнеймы профиля <.link href={@dotabuff_url}>{@profile_name}</.link></h2>
+  <h2 class="text-xl font-semibold text-indigo-200">Ники профиля <.link href={@dotabuff_url}>{@profile_name}</.link></h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     <div :for={nick <- @nicks} class="p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-indigo-400 transition">
       <div class="text-lg font-semibold text-indigo-200">{nick["name"]}</div>

@@ -7,9 +7,9 @@ const cookie = "SFMyNTY.g3QAAAABbQAAAAtfY3NyZl90b2tlbm0AAAAYUDlEM2tYd0V1SmxxTTlK
 export let options = {
   stages: [
     { duration: '30s', target: 10 }, // 0 -> 10 VUs
-    { duration: '1m',  target: 10 }, // держим 10 VUs
+    { duration: '1m', target: 10 }, // держим 10 VUs
     { duration: '30s', target: 20 }, // 10 -> 20 VUs
-    { duration: '1m',  target: 20 }, // держим 20 VUs
+    { duration: '1m', target: 20 }, // держим 20 VUs
     { duration: '30s', target: 0 },  // 20 -> 0 VUs
   ],
 };
@@ -31,10 +31,10 @@ export default function () {
 
   check(res, {
     "status 200": (r) => r.status === 200,
-    "contains header": (r) => r.body.includes("Генератор никнеймов для Dota 2"),
+    "contains header": (r) => r.body.includes("Генератор ников для Dota 2"),
   });
 
-  checkLiveViewUpgrade(host, origin, wsProtocol, cookie, res, url, {debug: true});
+  checkLiveViewUpgrade(host, origin, wsProtocol, cookie, res, url, { debug: true });
 
   sleep(1);
   //
@@ -91,16 +91,16 @@ function checkLiveViewUpgrade(
       static: phxStatic,
     })
   );
-  
-	const fetchFromApiMsg = JSON.stringify(
+
+  const fetchFromApiMsg = JSON.stringify(
     encodeMsg(1, 4, topic, "event", {
-			type: "click",
-			event: "fetch_from_api",
-			value: {value: ""}
+      type: "click",
+      event: "fetch_from_api",
+      value: { value: "" }
     })
   );
 
-	// Сделать проверку, сколько конектов улетело и сколько пришло ответов от LLM
+  // Сделать проверку, сколько конектов улетело и сколько пришло ответов от LLM
   var response = ws.connect(
     ws_url,
     {
@@ -109,64 +109,64 @@ function checkLiveViewUpgrade(
         Origin: testHost,
       },
     },
-		function (socket) {
-			socket.on("open", () => {
-				socket.send(joinMsg);
-				sleep(1);
-				socket.send(fetchFromApiMsg);
-				if (debug) console.log(`websocket open: phx_join topic: ${topic}`);
-			}),
-			socket.on("message", (message) => {
-				const messageId = JSON.parse(message).slice(0, 2);
+    function (socket) {
+      socket.on("open", () => {
+        socket.send(joinMsg);
+        sleep(1);
+        socket.send(fetchFromApiMsg);
+        if (debug) console.log(`websocket open: phx_join topic: ${topic}`);
+      }),
+        socket.on("message", (message) => {
+          const messageId = JSON.parse(message).slice(0, 2);
 
-				console.log("MESSAGE ID", messageId);
-				switch (JSON.stringify(messageId)) {
-					case `["1","4"]`:
-						console.log(`Получение данных о начале загрузки`);
-						checkMessage(message, `"status":"ok"`);
-						// checkMessage(message, "disabled phx-click=\\\"fetch_from_api\\\"");
-						checkMessage(message, "Генерируем ники для профиля 134556694");
-						break;
-					case `["1",null]`:
-						console.log(`Ответ от llm ${message}`)
-						// check(message, {
-						// 	"llm click event OK":(message) => {
-						// 		return message.includes("phx-click=\\\"fetch_from_api\\\"") &&
-						// 		message.includes("Получить данные из API") &&
-						// 		message.includes("Привет! Брат!");
-						// 	}
-						// })
-						// checkMessage(message, "phx-click=\\\"fetch_from_api\\\"");
-						// checkMessage(message, "Получить данные из API");
-						// checkMessage(message, "Привет! Брат!");
-						socket.close();
-						break;
-					case `["1","0"]`:
-						console.log(`Join liveview ${topic}`)
-						checkMessage(message, `"status":"ok"`);
-						checkMessage(message, "phx_reply");
-						break;
-					default:
-						console.log("Unexpected message", message);
-				}
-				// socket.close();
-			});
-			socket.on("error", handleWsError);
-			socket.on("close", () => {
-				// should we issue a phx_leave here?
-				if (debug) console.log("websocket disconnected");
-			});
-			socket.setTimeout(() => {
-				console.log("2 seconds passed, closing the socket");
-				socket.close();
-				fail("websocket closed");
-			}, 50000);
-		}
+          console.log("MESSAGE ID", messageId);
+          switch (JSON.stringify(messageId)) {
+            case `["1","4"]`:
+              console.log(`Получение данных о начале загрузки`);
+              checkMessage(message, `"status":"ok"`);
+              // checkMessage(message, "disabled phx-click=\\\"fetch_from_api\\\"");
+              checkMessage(message, "Генерируем ники для профиля 134556694");
+              break;
+            case `["1",null]`:
+              console.log(`Ответ от llm ${message}`)
+              // check(message, {
+              // 	"llm click event OK":(message) => {
+              // 		return message.includes("phx-click=\\\"fetch_from_api\\\"") &&
+              // 		message.includes("Получить данные из API") &&
+              // 		message.includes("Привет! Брат!");
+              // 	}
+              // })
+              // checkMessage(message, "phx-click=\\\"fetch_from_api\\\"");
+              // checkMessage(message, "Получить данные из API");
+              // checkMessage(message, "Привет! Брат!");
+              socket.close();
+              break;
+            case `["1","0"]`:
+              console.log(`Join liveview ${topic}`)
+              checkMessage(message, `"status":"ok"`);
+              checkMessage(message, "phx_reply");
+              break;
+            default:
+              console.log("Unexpected message", message);
+          }
+          // socket.close();
+        });
+      socket.on("error", handleWsError);
+      socket.on("close", () => {
+        // should we issue a phx_leave here?
+        if (debug) console.log("websocket disconnected");
+      });
+      socket.setTimeout(() => {
+        console.log("2 seconds passed, closing the socket");
+        socket.close();
+        fail("websocket closed");
+      }, 50000);
+    }
   );
 
   checkStatus(response, 101);
-  
-	sleep(1);
+
+  sleep(1);
 }
 
 function encodeMsg(id, seq, topic, event, msg) {

@@ -35,5 +35,8 @@ dev-deps-stop:
 dev-app-start:
 	set -a && source .env && set +a && mix deps.clean dotanicks --build && MIX_ENV=dev iex -S mix phx.server 
 
+dev-app-format:
+	set -a && source .env && set +a && mix format 
+
 dotabuff-mock:
 	MIX_ENV=test mix run -e "DotabuffMock.save_page(176_586_336)"

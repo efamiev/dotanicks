@@ -10,7 +10,7 @@ defmodule DotanicksWeb.PageController do
   def persons(conn, _params) do
     # The home page is often custom made,
     # so skip the default app layout.
-    render(conn, :persons, page_title: "Dotanicks | никнеймы игроков и стримеров по Dota 2", persons: persons(), layout: false)
+    render(conn, :persons, page_title: "Dotanicks | ники игроков и стримеров по Dota 2", persons: persons(), layout: false)
   end
 
   def persons do
