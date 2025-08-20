@@ -35,13 +35,16 @@
   </form>
 
   <div :if={@loading} class="text-center text-sm text-gray-400">
-    <.icon name="hero-arrow-path" class="ml-1 w-5 h-5 animate-spin ml-4" /> Пожалуйста, подождите. Процесс генерации может занять до 2 минут.
+    <.icon name="hero-arrow-path" class="ml-1 w-5 h-5 animate-spin ml-4" />
+    Пожалуйста, подождите. Процесс генерации может занять до 2 минут.
   </div>
 </section>
 
 <!-- Результаты -->
 <section :if={@nicks != []} class="space-y-6">
-  <h2 class="text-xl font-semibold text-indigo-200">Ники профиля <.link href={@dotabuff_url} target="_blank">{@profile_name}</.link></h2>
+  <h2 class="text-xl font-semibold text-indigo-200">
+    Ники профиля <.link href={@dotabuff_url} target="_blank">{@profile_name}</.link>
+  </h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     <div :for={nick <- @nicks} class="p-4 bg-gray-800 border border-gray-700 rounded-lg hover:border-indigo-400 transition">
       <div class="text-lg font-semibold text-indigo-200">{nick["name"]}</div>
@@ -52,7 +55,9 @@
 
 <!-- История -->
 <section :if={@prev_nicks != []} class="space-y-6">
-  <h3 class="text-xl font-semibold text-purple-300">История ников <.link href={@dotabuff_url} target="_blank">{@profile_name}</.link></h3>
+  <h3 class="text-xl font-semibold text-purple-300">
+    История ников <.link href={@dotabuff_url} target="_blank">{@profile_name}</.link>
+  </h3>
   <div
     :for={{{timestamp, _profile_name, prev_nicks}, index} <- Enum.with_index(@prev_nicks)}
     class="bg-gray-800 border border-gray-700 p-6 rounded-lg space-y-4"

@@ -13,7 +13,7 @@ defmodule Dotanicks.Application do
       {DNSCluster, query: Application.get_env(:dotanicks, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Dotanicks.PubSub},
       {Finch, name: DotanicksFinch},
-      Dotanicks.NicksHistory,
+      Dotanicks.Storage.NicksHistory,
       Dotanicks.Storage.Heroes
       # Start a worker by calling: Dotanicks.Worker.start_link(arg)
       # {Dotanicks.Worker, arg}

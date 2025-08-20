@@ -96,7 +96,7 @@ defmodule DotanicksWeb.DotanicksLive.Index do
   end
 
   def load_nicks_history(id) do
-    case Dotanicks.NicksHistory.get(id) do
+    case Dotanicks.Storage.NicksHistory.get(id) do
       [{^id, list}] -> list
       _ -> []
     end

@@ -60,39 +60,39 @@ defmodule DotanicksTest do
     ]
 
     assert Dotanicks.prepare_matches(raw_matches) == [
-        %{
-          "kills" => 14,
-          "deaths" => 6,
-          "assists" => 10,
-          "win" => true,
-          "duration" => 3010,
-          "hero_name" => "Muerta",
-          "hero_legs" => 2,
-          "hero_attack_type" => "Ranged",
-          "hero_primary_attr" => "int"
-        },
-        %{
-          "kills" => 11,
-          "deaths" => 3,
-          "assists" => 16,
-          "win" => true,
-          "duration" => 3127,
-          "hero_name" => "Medusa",
-          "hero_legs" => 0,
-          "hero_attack_type" => "Ranged",
-          "hero_primary_attr" => "agi"
-        },
-        %{
-          "kills" => 25,
-          "deaths" => 4,
-          "assists" => 6,
-          "win" => true,
-          "duration" => 2836,
-          "hero_name" => "Sven",
-          "hero_legs" => 2,
-          "hero_attack_type" => "Melee",
-          "hero_primary_attr" => "str"
-        },
-      ]
+             %{
+               "kills" => 14,
+               "deaths" => 6,
+               "assists" => 10,
+               "win" => true,
+               "duration" => 3010,
+               "hero_name" => "Muerta",
+               "hero_legs" => 2,
+               "hero_attack_type" => "Ranged",
+               "hero_primary_attr" => "int"
+             },
+             %{
+               "kills" => 11,
+               "deaths" => 3,
+               "assists" => 16,
+               "win" => true,
+               "duration" => 3127,
+               "hero_name" => "Medusa",
+               "hero_legs" => 0,
+               "hero_attack_type" => "Ranged",
+               "hero_primary_attr" => "agi"
+             },
+             %{
+               "kills" => 25,
+               "deaths" => 4,
+               "assists" => 6,
+               "win" => true,
+               "duration" => 2836,
+               "hero_name" => "Sven",
+               "hero_legs" => 2,
+               "hero_attack_type" => "Melee",
+               "hero_primary_attr" => "str"
+             }
+           ]
   end
 end

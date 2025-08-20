@@ -42,7 +42,7 @@ llm_system_content =
     """
 
 config :dotanicks, :llm_api_key, llm_api_key
-config :dotanicks, :open_dota_api_key, open_dota_api_key 
+config :dotanicks, :open_dota_api_key, open_dota_api_key
 config :dotanicks, :llm_system_content, llm_system_content
 config :dotanicks, :nicks_history_file, ~c"nicks_history.dets"
 config :dotanicks, :heroes_file, ~c"heroes.dets"

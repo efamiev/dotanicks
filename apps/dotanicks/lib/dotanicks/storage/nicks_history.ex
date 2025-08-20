@@ -1,4 +1,4 @@
-defmodule Dotanicks.NicksHistory do
+defmodule Dotanicks.Storage.NicksHistory do
   use GenServer
 
   @table :nicks_history

@@ -1,7 +1,7 @@
 defmodule Dotanicks do
   alias Dotanicks.Parser
-  alias Dotanicks.NicksHistory
   alias Dotanicks.Storage.Heroes
+  alias Dotanicks.Storage.NicksHistory
 
   require Logger
 
@@ -66,7 +66,7 @@ defmodule Dotanicks do
   def fetch_matches(id) do
     params = %{api_key: @open_dota_api_key, limit: 20}
     url = "https://api.opendota.com/api/players/#{id}/matches?" <> URI.encode_query(params)
-    IO.inspect url
+    IO.inspect(url)
 
     req = Finch.build(:get, url)
 
@@ -86,7 +86,7 @@ defmodule Dotanicks do
         {:error, err}
     end
   end
-  
+
   def fetch_profile(id) do
     params = %{api_key: @open_dota_api_key}
     url = "https://api.opendota.com/api/players/#{id}?" <> URI.encode_query(params)

@@ -1,7 +1,7 @@
-defmodule Dotanicks.NicksHistoryTest do
+defmodule Dotanicks.Storage.NicksHistoryTest do
   use ExUnit.Case
 
-  alias Dotanicks.NicksHistory
+  alias Dotanicks.Storage.NicksHistory
 
   test "adds data to the first element of the list" do
     table = NicksHistory.get_table()

@@ -9,7 +9,7 @@ defmodule Dotanicks.Storage.Heroes do
 
   use GenServer
   require Logger
-  
+
   @open_dota_api_key "#{Application.compile_env(:dotanicks, :open_dota_api_key)}"
   @dets_file Application.get_env(:dotanicks, :heroes_file)
 
@@ -42,6 +42,7 @@ defmodule Dotanicks.Storage.Heroes do
     case :dets.open_file(@table, file: @dets_file) do
       {:ok, ^table} ->
         count = load_from_dets_to_ets!()
+
         if count > 0 do
           Logger.info("Loaded #{count} heroes from DETS")
           {:ok, %{}}
@@ -78,7 +79,8 @@ defmodule Dotanicks.Storage.Heroes do
       :undefined ->
         :ets.new(@table, [:named_table, :set, :public, read_concurrency: true])
 
-      _ -> :ok
+      _ ->
+        :ok
     end
   end
 
