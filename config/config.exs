@@ -29,6 +29,12 @@ llm_api_key =
     Environment variable LLM_API_KEY is missing.
     """
 
+open_dota_api_key =
+  System.get_env("OPEN_DOTA_API_KEY") ||
+    raise """
+    Environment variable OPEN_DOTA_API_KEY is missing.
+    """
+
 llm_system_content =
   System.get_env("LLM_SYSTEM_CONTENT") ||
     raise """
@@ -36,8 +42,10 @@ llm_system_content =
     """
 
 config :dotanicks, :llm_api_key, llm_api_key
+config :dotanicks, :open_dota_api_key, open_dota_api_key 
 config :dotanicks, :llm_system_content, llm_system_content
 config :dotanicks, :nicks_history_file, ~c"nicks_history.dets"
+config :dotanicks, :heroes_file, ~c"heroes.dets"
 
 # Configure esbuild (the version is required)
 config :esbuild,
