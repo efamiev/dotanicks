@@ -6,7 +6,7 @@ defmodule Dotanicks do
   require Logger
 
   @auth_header "Bearer #{Application.compile_env(:dotanicks, :llm_api_key)}"
-  @open_dota_api_key "#{Application.compile_env(:dotanicks, :open_dota_api_key)}"
+  @open_dota_api_key Application.compile_env(:dotanicks, :open_dota_api_key)
   @llm_system_content Application.compile_env(:dotanicks, :llm_system_content)
 
   def generate(id) do
@@ -15,8 +15,9 @@ defmodule Dotanicks do
 
   def do_generate(id) do
     with {:ok, matches} <- fetch_matches(id),
-         {:ok, %{"profile" => %{"name" => profile_name}}} <- fetch_profile(id),
-         {:ok, nicks} <- fetch_nicks(matches) do
+         {:ok, nicks} <- fetch_nicks(matches),
+         {:ok, %{"profile" => profile}} <- fetch_profile(id),
+         profile_name <- profile_name(profile) do
       NicksHistory.add(id, profile_name, nicks)
 
       Phoenix.PubSub.broadcast(Dotanicks.PubSub, "nicks:#{id}", {:core_event, {:ok, {profile_name, nicks}}})
@@ -66,7 +67,6 @@ defmodule Dotanicks do
   def fetch_matches(id) do
     params = %{api_key: @open_dota_api_key, limit: 20}
     url = "https://api.opendota.com/api/players/#{id}/matches?" <> URI.encode_query(params)
-    IO.inspect(url)
 
     req = Finch.build(:get, url)
 
@@ -126,6 +126,9 @@ defmodule Dotanicks do
   def win?(player_slot, radiant_win) when radiant_win and player_slot <= 127, do: true
   def win?(player_slot, radiant_win) when not radiant_win and player_slot > 127, do: true
   def win?(_, _), do: false
+
+  def profile_name(%{"name" => nil, "personaname" => name}), do: name
+  def profile_name(%{"name" => name}), do: name
 
   def llm_req_body(matches) do
     Jason.encode!(%{

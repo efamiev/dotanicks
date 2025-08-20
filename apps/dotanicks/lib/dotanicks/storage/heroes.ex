@@ -10,7 +10,7 @@ defmodule Dotanicks.Storage.Heroes do
   use GenServer
   require Logger
 
-  @open_dota_api_key "#{Application.compile_env(:dotanicks, :open_dota_api_key)}"
+  @open_dota_api_key Application.compile_env(:dotanicks, :open_dota_api_key)
   @dets_file Application.get_env(:dotanicks, :heroes_file)
 
   @table :heroes
