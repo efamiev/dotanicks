@@ -10,8 +10,9 @@ jobs:
     env:
       MIX_ENV: prod                   # Режим сборки - продакшн
       DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}        # Путь на сервере для деплоя
-      SERVICE_NAME: ${{ secrets.SERVICE_NAME }}     # Имя systemd-сервиса
-      LLM_API_KEY: ${{ secrets.LLM_API_KEY }}     # Имя systemd-сервиса
+      SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
+      LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+      OPEN_DOTA_API_KEY: ${{ secrets.OPEN_DOTA_API_KEY }}
       LLM_SYSTEM_CONTENT: ${{ secrets.LLM_SYSTEM_CONTENT }}
       NICKS_HISTORY_FILE: ${{ secrets.NICKS_HISTORY_FILE }}
     steps:
