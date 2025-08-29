@@ -11,13 +11,13 @@
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
     
-<!-- Favicon -->
+    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     
-<!-- SEO META -->
+    <!-- SEO META -->
     <meta
       name="description"
       content="Dotanicks — AI генератор ников по матчам Dota 2. Получи честные ники, сгенерированые искусственным интеллектом, на анализе матчей."
@@ -37,6 +37,16 @@
     <meta property="og:image" content="https://dotanicks.fun/preview.jpg" />
     <meta name="google-site-verification" content="PIt3XoU9wvfXpe3r9OeF561E1DQpvAsUDgm6tjH72Io" />
   </head>
+
+    <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TZEVF7GME6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-TZEVF7GME6');
+  </script>
   <body class="flex flex-col min-h-screen font-sans">
     {@inner_content}
   </body>
