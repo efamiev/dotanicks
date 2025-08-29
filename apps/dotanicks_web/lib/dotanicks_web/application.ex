@@ -7,6 +7,8 @@ defmodule DotanicksWeb.Application do
 
   @impl true
   def start(_type, _args) do
+    :logger.add_handlers(:dotanicks)
+
     children = [
       DotanicksWeb.Telemetry,
       # Start a worker by calling: DotanicksWeb.Worker.start_link(arg)

@@ -76,5 +76,30 @@ if config_env() == :prod do
   #
   # Check `Plug.SSL` for all available options in `force_ssl`.
 
+  log_path = 
+    System.get_env("LOG_PATH") ||
+      raise """
+      Environment variable LOG_PATH is missing.
+      """
+
+  config :dotanicks, :logger, [
+    {:handler, :disk_log, :logger_disk_log_h, %{
+        config: %{
+              file: String.to_charlist(log_path),
+              type: :wrap,
+              max_no_files: 5,
+              max_no_bytes: 2097152,
+              sync_mode_qlen: 2000, # If sync_mode_qlen is set to the same value as drop_mode_qlen,
+              drop_mode_qlen: 2000, # synchronous mode is disabled. That is, the handler always runs
+              flush_qlen: 5000,     # in asynchronous mode, unless dropping or flushing is invoked.
+              overload_kill_enable: true
+              # Documentation about Overload protection, together with default values, can be found here:
+              # http://erlang.org/doc/apps/kernel/logger_chapter.html#protecting-the-handler-from-overload
+        },
+        formatter: Logger.Formatter.new()
+      }
+    }
+  ]
+
   config :dotanicks, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 end
